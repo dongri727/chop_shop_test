@@ -1,19 +1,18 @@
+import 'package:chop_shop_test/article/timeline_entry_widget.dart';
+import 'package:chop_shop_test/bloc_provider.dart';
+import 'package:chop_shop_test/colors.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:timeline/article/timeline_entry_widget.dart';
-import 'package:timeline/bloc_provider.dart';
-import 'package:timeline/colors.dart';
-import 'package:timeline/timeline/timeline_entry.dart';
 
 /// This widget will paint the article page.
 /// It stores a reference to the [TimelineEntry] that contains the relevant information.
 class ArticleWidget extends StatefulWidget {
   final TimelineEntry article;
-  ArticleWidget({this.article, Key? key}) : super(key: key);
+  ArticleWidget({this.article, Key key}) : super(key: key);
 
   @override
   _ArticleWidgetState createState() => _ArticleWidgetState();
@@ -91,7 +90,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
       img: style,
       blockSpacing: 20.0,
       listIndent: 20.0,
-      blockquotePadding: 20.0,
+      // blockquotePadding: 20.0,
     );
     setState(() {
       _title = widget.article.label;
@@ -125,7 +124,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
         (TimelineEntry te) => te.label.toLowerCase() == _title.toLowerCase());
     return Scaffold(
         body: Container(
-            color: Color.fromRGBO(255, 255, 255, 1),
+            color: const Color.fromRGBO(255, 255, 255, 1),
             child: Stack(children: <Widget>[
               Column(children: <Widget>[
                 Container(height: devicePadding.top),
@@ -134,8 +133,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                     width: double.infinity,
                     child: IconButton(
                       alignment: Alignment.centerLeft,
-                      icon: Icon(Icons.arrow_back),
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      icon: const Icon(Icons.arrow_back),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       color: Colors.black.withOpacity(0.5),
                       onPressed: () {
                         Navigator.pop(context, true);
@@ -143,8 +142,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                     )),
                 Expanded(
                     child: SingleChildScrollView(
-                        padding:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 30),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -171,7 +170,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                                         timelineEntry: widget.article,
                                         interactOffset: _interactOffset))),
                             Padding(
-                              padding: EdgeInsets.only(top: 30.0),
+                              padding: const EdgeInsets.only(top: 30.0),
                               child: Row(children: [
                                 Expanded(
                                   child: Column(
@@ -203,7 +202,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                                         child: Container(
                                           height: 60.0,
                                           width: 60.0,
-                                          padding: EdgeInsets.all(15.0),
+                                          padding: const EdgeInsets.all(15.0),
                                           color: Colors.white,
 
                                           /// Check out the widget at:
@@ -230,13 +229,14 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                               ]),
                             ),
                             Container(
-                                margin: EdgeInsets.only(top: 20, bottom: 20),
+                                margin:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
                                 height: 1,
                                 color: Colors.black.withOpacity(0.11)),
                             MarkdownBody(
                                 data: _articleMarkdown,
                                 styleSheet: _markdownStyleSheet),
-                            SizedBox(height: 100),
+                            const SizedBox(height: 100),
                           ],
                         )))
               ])

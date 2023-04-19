@@ -5,20 +5,14 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
-import 'package:flare_dart/animation/actor_animation.dart' as flare;
-import 'package:flare_dart/math/aabb.dart' as flare;
-import 'package:flare_dart/math/vec2d.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:nima/nima.dart' as nima;
-import 'package:nima/nima/actor_image.dart' as nima;
-import 'package:nima/nima/animation/actor_animation.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;
-import 'package:nima/nima/math/vec2d.dart' as nima;
-import 'package:timeline/timeline/timeline_utils.dart';
+import 'package:nima/nima/math/aabb.dart';
 
 import 'timeline_entry.dart';
 
@@ -61,8 +55,8 @@ class Timeline {
 
   double _start = 0.0;
   double _end = 0.0;
-  double _renderStart;
-  double _renderEnd;
+  double _renderStart = 0.0;
+  double _renderEnd = 0.0;
   double _lastFrameTime = 0.0;
   double _height = 0.0;
   double _firstOnScreenEntryY = 0.0;
@@ -91,49 +85,49 @@ class Timeline {
 
   HeaderColors _currentHeaderColors;
 
-  Color? _headerTextColor;
+  Color _headerTextColor;
 
   /// Depending on the current [Platform], different values are initialized
   Color _headerBackgroundColor;
 
   /// so that they behave properly on iOS&Android.
-  ScrollPhysics? _scrollPhysics;
+  ScrollPhysics _scrollPhysics;
 
   /// [_scrollPhysics] needs a [ScrollMetrics] value to function.
-  ScrollMetrics? _scrollMetrics;
-  Simulation? _scrollSimulation;
+  ScrollMetrics _scrollMetrics;
+  Simulation _scrollSimulation;
 
   EdgeInsets padding = EdgeInsets.zero;
   EdgeInsets devicePadding = EdgeInsets.zero;
 
-  Timer? _steadyTimer;
+  Timer _steadyTimer;
 
   /// Through these two references, the Timeline can access the era and update
   /// the top label accordingly.
-  TimelineEntry? _currentEra;
+  TimelineEntry _currentEra;
   TimelineEntry _lastEra;
 
   /// These references allow to maintain a reference to the next and previous elements
   /// of the Timeline, depending on which elements are currently in focus.
   /// When there's enough space on the top/bottom, the Timeline will render a round button
   /// with an arrow to link to the next/previous element.
-  TimelineEntry? _nextEntry;
+  TimelineEntry _nextEntry;
   TimelineEntry _renderNextEntry;
-  TimelineEntry? _prevEntry;
+  TimelineEntry _prevEntry;
   TimelineEntry _renderPrevEntry;
 
   /// A gradient is shown on the background, depending on the [_currentEra] we're in.
-  List<TimelineBackgroundColor> _backgroundColors;
+  List<TimelineBackgroundColor> _backgroundColors = [];
 
   /// [Ticks] also have custom colors so that they are always visible with the changing background.
-  List<TickColors> _tickColors;
-  List<HeaderColors> _headerColors;
+  List<TickColors> _tickColors = [];
+  List<HeaderColors> _headerColors = [];
 
   /// All the [TimelineEntry]s that are loaded from disk at boot (in [loadFromBundle()]).
-  List<TimelineEntry> _entries;
+  List<TimelineEntry> _entries = [];
 
   /// The list of [TimelineAsset], also loaded from disk at boot.
-  List<TimelineAsset> _renderAssets;
+  List<TimelineAsset> _renderAssets = [];
 
   final Map<String, TimelineEntry> _entriesById = <String, TimelineEntry>{};
   final Map<String, nima.FlutterActor> _nimaResources =
@@ -166,10 +160,10 @@ class Timeline {
   bool get isInteracting => _isInteracting;
   bool get showFavorites => _showFavorites;
   bool get isActive => _isActive;
-  Color? get headerTextColor => _headerTextColor;
+  Color get headerTextColor => _headerTextColor;
   Color get headerBackgroundColor => _headerBackgroundColor;
   HeaderColors get currentHeaderColors => _currentHeaderColors;
-  TimelineEntry? get currentEra => _currentEra;
+  TimelineEntry get currentEra => _currentEra;
   TimelineEntry get nextEntry => _renderNextEntry;
   TimelineEntry get prevEntry => _renderPrevEntry;
   List<TimelineEntry> get entries => _entries;
@@ -273,7 +267,7 @@ class Timeline {
     /// The JSON decode doesn't provide strong typing, so we'll iterate
     /// on the dynamic entries in the [jsonEntries] list.
     for (dynamic entry in jsonEntries) {
-      Map? map = entry as Map;
+      Map map = entry as Map;
 
       /// Sanity check.
       TimelineEntry timelineEntry = TimelineEntry();
@@ -299,7 +293,7 @@ class Timeline {
           _backgroundColors.add(TimelineBackgroundColor()
             ..color =
                 Color.fromARGB(255, bg[0] as int, bg[1] as int, bg[2] as int)
-            ..start = timelineEntry.start!);
+            ..start = timelineEntry.start);
         }
       }
 
@@ -352,7 +346,7 @@ class Timeline {
             ..long = longColor
             ..short = shortColor
             ..text = textColor
-            ..start = timelineEntry.start!
+            ..start = timelineEntry.start
             ..screenY = 0.0);
         }
       }
@@ -378,7 +372,7 @@ class Timeline {
           _headerColors.add(HeaderColors()
             ..background = bgColor
             ..text = textColor
-            ..start = timelineEntry.start!
+            ..start = timelineEntry.start
             ..screenY = 0.0);
         }
       }
@@ -405,7 +399,7 @@ class Timeline {
       /// Some entries will also have an id
       if (map.containsKey("id")) {
         timelineEntry.id = map["id"] as String;
-        _entriesById[timelineEntry.id!] = timelineEntry;
+        _entriesById[timelineEntry.id] = timelineEntry;
       }
       if (map.containsKey("article")) {
         timelineEntry.articleFilename = map["article"] as String;
@@ -448,24 +442,26 @@ class Timeline {
             }
             if (actor != null) {
               /// Distinguish between the actual actor, and its intance.
-              flareAsset.actorStatic = actor.artboard;
-              flareAsset.actorStatic.initializeGraphics();
-              flareAsset.actor = actor.artboard.makeInstance();
-              flareAsset.actor.initializeGraphics();
+              flareAsset.actorStatic =
+                  actor.artboard as flare.FlutterActorArtboard;
+              flareAsset.actorStatic?.initializeGraphics();
+              flareAsset.actor =
+                  actor.artboard?.makeInstance() as flare.FlutterActorArtboard;
+              flareAsset.actor?.initializeGraphics();
 
               /// and the reference to their first animation is grabbed.
-              flareAsset.animation = actor.artboard.animations[0];
+              flareAsset.animation = actor.artboard?.animations[0];
 
               dynamic name = assetMap["idle"];
               if (name is String) {
-                if ((flareAsset.idle = flareAsset.actor.getAnimation(name)) !=
+                if ((flareAsset.idle = flareAsset.actor?.getAnimation(name)) !=
                     null) {
                   flareAsset.animation = flareAsset.idle;
                 }
               } else if (name is List) {
                 for (String animationName in name) {
                   flare.ActorAnimation animation =
-                      flareAsset.actor.getAnimation(animationName);
+                      flareAsset.actor?.getAnimation(animationName);
                   if (animation != null) {
                     flareAsset.idleAnimations;
                     flareAsset.idleAnimations?.add(animation);
@@ -485,7 +481,8 @@ class Timeline {
               /// Make sure that all the initial values are set for the actor and for the actor instance.
               flareAsset.animationTime = 0.0;
               flareAsset.actor.advance(0.0);
-              flareAsset.setupAABB = flareAsset.actor.computeAABB();
+              flareAsset.setupAABB =
+                  flareAsset.actor.computeAABB() as nima.AABB;
               flareAsset.animation
                   .apply(flareAsset.animationTime, flareAsset.actor, 1.0);
               flareAsset.animation.apply(
@@ -511,7 +508,7 @@ class Timeline {
               dynamic bounds = assetMap["bounds"];
               if (bounds is List) {
                 /// Override the AABB for this entry with custom values.
-                flareAsset.setupAABB = flare.AABB.fromValues(
+                flareAsset.setupAABB = AABB.fromValues(
                     bounds[0] is int ? bounds[0].toDouble() : bounds[0],
                     bounds[1] is int ? bounds[1].toDouble() : bounds[1],
                     bounds[2] is int ? bounds[2].toDouble() : bounds[2],
@@ -533,7 +530,7 @@ class Timeline {
             }
             if (actor != null) {
               nimaAsset.actorStatic = actor;
-              nimaAsset.actor = actor.makeInstance();
+              nimaAsset.actor = actor;
 
               dynamic name = assetMap["idle"];
               if (name is String) {
@@ -613,7 +610,7 @@ class Timeline {
 
     /// sort the full list so they are in order of oldest to newest
     allEntries.sort((TimelineEntry a, TimelineEntry b) {
-      return a.start!.compareTo(b.start!);
+      return a.start.compareTo(b.start);
     });
 
     _backgroundColors
@@ -628,24 +625,24 @@ class Timeline {
     _entries = <TimelineEntry>[];
 
     /// Build up hierarchy (Eras are grouped into "Spanning Eras" and Events are placed into the Eras they belong to).
-    TimelineEntry? previous;
+    TimelineEntry previous;
     for (TimelineEntry entry in allEntries) {
-      if (entry.start! < _timeMin) {
-        _timeMin = entry.start!;
+      if (entry.start < _timeMin) {
+        _timeMin = entry.start;
       }
-      if (entry.end! > _timeMax) {
-        _timeMax = entry.end!;
+      if (entry.end > _timeMax) {
+        _timeMax = entry.end;
       }
       previous?.next = entry;
-      entry.previous = previous!;
+      entry.previous = previous;
       previous = entry;
 
-      TimelineEntry? parent;
+      TimelineEntry parent;
       double minDistance = double.maxFinite;
       for (TimelineEntry checkEntry in allEntries) {
         if (checkEntry.type == TimelineEntryType.era) {
-          double distance = entry.start! - checkEntry.start!;
-          double distanceEnd = entry.start! - checkEntry.end!;
+          double distance = entry.start - checkEntry.start;
+          double distanceEnd = entry.start - checkEntry.end;
           if (distance > 0 && distanceEnd < 0 && distance < minDistance) {
             minDistance = distance;
             parent = checkEntry;
@@ -665,7 +662,7 @@ class Timeline {
   }
 
   /// Helper function for [MenuVignette].
-  TimelineEntry? getById(String id) {
+  TimelineEntry getById(String id) {
     return _entriesById[id];
   }
 
@@ -716,6 +713,8 @@ class Timeline {
       double height = double.maxFinite,
       double velocity = double.maxFinite,
       bool animate = false}) {
+    print('kiteru!');
+
     /// Calculate the current height.
     if (height != double.maxFinite) {
       if (_height == 0.0 && _entries.isNotEmpty) {
@@ -750,7 +749,8 @@ class Timeline {
 
     /// If a velocity value has been passed, use the [ScrollPhysics] to create
     /// a simulation and perform scrolling natively to the current platform.
-    if (velocity != double.maxFinite) {
+    if (velocity == double.maxFinite) {
+      print('kiteru?');
       double scale = computeScale(_start, _end);
       double padTop =
           (devicePadding.top + ViewportPaddingTop) / computeScale(_start, _end);
@@ -774,15 +774,19 @@ class Timeline {
           pixels: 0.0,
           viewportDimension: _height,
           axisDirection: AxisDirection.down);
-
-      _scrollSimulation =
-          _scrollPhysics?.createBallisticSimulation(_scrollMetrics!, velocity);
+      print('kiteru!');
+      if (_scrollPhysics != null) {
+        _scrollPhysics = const BouncingScrollPhysics();
+        print('kiteru');
+        _scrollSimulation =
+            _scrollPhysics.createBallisticSimulation(_scrollMetrics, velocity);
+      }
     }
     if (!animate) {
       _renderStart = start;
       _renderEnd = end;
       advance(0.0, false);
-      onNeedPaint();
+      // onNeedPaint();
     } else if (!_isFrameScheduled) {
       _isFrameScheduled = true;
       _lastFrameTime = 0.0;
@@ -814,7 +818,7 @@ class Timeline {
     onNeedPaint();
   }
 
-  TickColors? findTickColors(double screen) {
+  TickColors findTickColors(double screen) {
     if (_tickColors == []) {
       return null;
     }
@@ -829,7 +833,7 @@ class Timeline {
         : _tickColors.last;
   }
 
-  HeaderColors? _findHeaderColors(double screen) {
+  HeaderColors _findHeaderColors(double screen) {
     if (_headerColors == []) {
       return null;
     }
@@ -861,15 +865,15 @@ class Timeline {
     doneRendering = false;
     _simulationTime += elapsed;
     double scale1 = _height / (_end - _start);
-    double? velocity = _scrollSimulation?.dx(_simulationTime);
+    double velocity = _scrollSimulation?.dx(_simulationTime);
 
-    double displace = velocity! * elapsed / scale;
+    double displace = velocity * elapsed / scale;
 
     _start -= displace;
     _end -= displace;
 
     /// If scrolling has terminated, clean up the resources.
-    if (_scrollSimulation!.isDone(_simulationTime)) {
+    if (_scrollSimulation.isDone(_simulationTime)) {
       _scrollMetrics = null;
       _scrollPhysics = null;
       _scrollSimulation = null;
@@ -927,7 +931,7 @@ class Timeline {
       }
     }
 
-    _currentHeaderColors = _findHeaderColors(0.0)!;
+    _currentHeaderColors = _findHeaderColors(0.0);
 
     if (_headerTextColor == null) {
       _headerTextColor = _currentHeaderColors.text;
@@ -935,7 +939,7 @@ class Timeline {
     } else {
       bool stillColoring = false;
       Color headerTextColor = interpolateColor(
-          _headerTextColor!, _currentHeaderColors.text, elapsed);
+          _headerTextColor, _currentHeaderColors.text, elapsed);
 
       if (headerTextColor != _headerTextColor) {
         _headerTextColor = headerTextColor;
@@ -950,7 +954,7 @@ class Timeline {
         doneRendering = false;
       }
       if (stillColoring) {
-        onHeaderColorsChanged(_headerBackgroundColor, _headerTextColor!);
+        onHeaderColorsChanged(_headerBackgroundColor, _headerTextColor);
       }
     }
 
@@ -978,7 +982,7 @@ class Timeline {
     }
 
     if (_nextEntryOpacity == 0.0) {
-      _renderNextEntry = _nextEntry!;
+      _renderNextEntry = _nextEntry;
     }
 
     /// Determine next entry's opacity and interpolate, if needed, towards that value.
@@ -998,7 +1002,7 @@ class Timeline {
     }
 
     if (_prevEntryOpacity == 0.0) {
-      _renderPrevEntry = _prevEntry!;
+      _renderPrevEntry = _prevEntry;
     }
 
     /// Determine previous entry's opacity and interpolate, if needed, towards that value.
@@ -1028,8 +1032,8 @@ class Timeline {
 
     /// If a new era is currently in view, callback.
     if (_currentEra != _lastEra) {
-      _lastEra = _currentEra!;
-      onEraChanged(_currentEra!);
+      _lastEra = _currentEra;
+      onEraChanged(_currentEra);
     }
 
     if (_isSteady) {
@@ -1058,9 +1062,9 @@ class Timeline {
     for (int i = 0; i < items.length; i++) {
       TimelineEntry item = items[i];
 
-      double start = item.start! - _renderStart;
+      double start = item.start - _renderStart;
       double end =
-          item.type == TimelineEntryType.era ? item.end! - _renderStart : start;
+          item.type == TimelineEntryType.era ? item.end - _renderStart : start;
 
       /// Vertical position for this element.
       double y = start * scale;
@@ -1129,9 +1133,9 @@ class Timeline {
       }
 
       double targetItemOpacity = item.parent != null
-          ? item.parent!.length < MinChildLength || (item.parent!.endY < y)
+          ? item.parent.length < MinChildLength || (item.parent.endY < y)
               ? 0.0
-              : y > item.parent!.y
+              : y > item.parent.y
                   ? 1.0
                   : 0.0
           : 1.0;
@@ -1205,7 +1209,7 @@ class Timeline {
 
       if (item.isVisible) {
         /// Advance the rest of the hierarchy.
-        if (_advanceItems(item.children!, x + LineSpacing + LineWidth, scale,
+        if (_advanceItems(item.children, x + LineSpacing + LineWidth, scale,
             elapsed, animate, depth + 1)) {
           stillAnimating = true;
         }
@@ -1224,7 +1228,7 @@ class Timeline {
       double halfHeight = _height / 2.0;
       double thresholdAssetY = y + ((y - halfHeight) / halfHeight) * Parallax;
       double targetAssetY =
-          thresholdAssetY - item.asset!.height! * AssetScreenScale / 2.0;
+          thresholdAssetY - item.asset.height * AssetScreenScale / 2.0;
 
       /// Determine if the current entry is visible or not.
       double targetAssetOpacity =
@@ -1246,22 +1250,22 @@ class Timeline {
 
       /// Determine if the entry needs to be scaled.
       double targetScale = targetAssetOpacity;
-      double targetScaleVelocity = targetScale - item.asset!.scale;
+      double targetScaleVelocity = targetScale - item.asset.scale;
       if (!animate || targetScale == 0) {
         item.asset?.scaleVelocity = targetScaleVelocity;
       } else {
-        double dvy = targetScaleVelocity - item.asset!.scaleVelocity;
+        double dvy = targetScaleVelocity - item.asset.scaleVelocity;
         item.asset?.scaleVelocity += dvy * elapsed * 18.0;
       }
 
-      item.asset!.scale += item.asset!.scaleVelocity * elapsed * 20.0;
+      item.asset.scale += item.asset.scaleVelocity * elapsed * 20.0;
       if (animate &&
-          (item.asset!.scaleVelocity.abs() > 0.01 ||
+          (item.asset.scaleVelocity.abs() > 0.01 ||
               targetScaleVelocity.abs() > 0.01)) {
         stillAnimating = true;
       }
 
-      TimelineAsset? asset = item.asset;
+      TimelineAsset asset = item.asset;
       if (asset?.opacity == 0.0) {
         /// Item was invisible, just pop it to the right place and stop velocity.
         asset?.y = targetAssetY;
@@ -1269,7 +1273,7 @@ class Timeline {
       }
 
       /// Determinte the opacity delta and interpolate towards that value if needed.
-      double da = targetAssetOpacity - asset!.opacity;
+      double da = targetAssetOpacity - asset.opacity;
       if (!animate || da.abs() < 0.01) {
         asset.opacity = targetAssetOpacity;
       } else {
@@ -1296,23 +1300,23 @@ class Timeline {
         }
 
         _lastAssetY =
-            targetAssetY + asset.height! * AssetScreenScale + AssetPadding;
+            targetAssetY + asset.height * AssetScreenScale + AssetPadding;
         if (asset is TimelineNima) {
           _lastAssetY += asset.gap;
         } else if (asset is TimelineFlare) {
           _lastAssetY += asset.gap;
         }
         if (asset.y > _height ||
-            asset.y + asset.height! * AssetScreenScale < 0.0) {
+            asset.y + asset.height * AssetScreenScale < 0.0) {
           /// It's not in view: cull it. Make sure we don't advance animations.
           if (asset is TimelineNima) {
             TimelineNima nimaAsset = asset;
-            if (!nimaAsset.loop!) {
+            if (!nimaAsset.loop) {
               nimaAsset.animationTime = -1.0;
             }
           } else if (asset is TimelineFlare) {
             TimelineFlare flareAsset = asset;
-            if (!flareAsset.loop!) {
+            if (!flareAsset.loop) {
               flareAsset.animationTime = -1.0;
             } else if (flareAsset.intro != null) {
               flareAsset.animationTime = -1.0;
@@ -1323,7 +1327,7 @@ class Timeline {
           /// Item is in view, apply the new animation time and advance the actor.
           if (asset is TimelineNima && isActive) {
             asset.animationTime += elapsed;
-            if (asset.loop!) {
+            if (asset.loop) {
               asset.animationTime %= asset.animation.duration;
             }
             asset.animation.apply(asset.animationTime, asset.actor, 1.0);
@@ -1336,7 +1340,7 @@ class Timeline {
             /// Distinguish which one has the top priority and apply it accordingly.
             if (asset.idleAnimations != null) {
               double phase = 0.0;
-              for (flare.ActorAnimation animation in asset.idleAnimations!) {
+              for (flare.ActorAnimation animation in asset.idleAnimations) {
                 animation.apply(
                     (asset.animationTime + phase) % animation.duration,
                     asset.actor,
@@ -1349,7 +1353,7 @@ class Timeline {
                 asset.animationTime -= asset.animation.duration;
                 asset.animation = asset.idle;
               }
-              if (asset.loop! && asset.animationTime > 0) {
+              if (asset.loop && asset.animationTime > 0) {
                 asset.animationTime %= asset.animation.duration;
               }
               asset.animation.apply(asset.animationTime, asset.actor, 1.0);
@@ -1359,7 +1363,7 @@ class Timeline {
           }
 
           /// Add this asset to the list of rendered assets.
-          renderAssets.add(item.asset!);
+          renderAssets.add(item.asset);
         }
       } else {
         /// [item] is not visible.
@@ -1368,7 +1372,7 @@ class Timeline {
 
       if (item.isVisible) {
         /// Proceed down the hierarchy.
-        if (_advanceAssets(item.children!, elapsed, animate, renderAssets)) {
+        if (_advanceAssets(item.children, elapsed, animate, renderAssets)) {
           stillAnimating = true;
         }
       }

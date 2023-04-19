@@ -19,7 +19,7 @@ class SearchManager {
 
   /// Factory constructor that will perform the initialization, and return the reference
   /// the _searchManager (constructing it if called a first time.).
-  factory SearchManager.init([List<TimelineEntry>? entries]) {
+  factory SearchManager.init([List<TimelineEntry> entries]) {
     if (entries != null) {
       _searchManager._fill(entries);
     }
@@ -39,7 +39,7 @@ class SearchManager {
         for (int j = i + 1; j <= len; j++) {
           String substring = label.substring(i, j).toLowerCase();
           if (_queryMap.containsKey(substring)) {
-            Set<TimelineEntry>? labels = _queryMap[substring];
+            Set<TimelineEntry> labels = _queryMap[substring];
             labels?.add(e);
           } else {
             _queryMap.putIfAbsent(substring, () => {e});
@@ -51,7 +51,7 @@ class SearchManager {
 
   /// Use the [SplayTreeMap] query function to return the full [Set] of results.
   /// This operation amortized logarithmic time.
-  Set? performSearch(String query) {
+  Set performSearch(String query) {
     if (_queryMap.containsKey(query)) {
       return _queryMap[query];
     } else if (query.isNotEmpty) {
@@ -60,7 +60,7 @@ class SearchManager {
     Iterable<String> keys = _queryMap.keys;
     Set<TimelineEntry> res = {};
     for (String k in keys) {
-      res.addAll(_queryMap[k]!);
+      res.addAll(_queryMap[k]);
     }
     return res;
   }

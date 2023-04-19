@@ -3,10 +3,6 @@ import 'package:chop_shop_test/search_manager.dart';
 import 'package:chop_shop_test/timeline/timeline.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import "package:flutter/widgets.dart";
-import "package:timeline/blocs/favorites_bloc.dart";
-import 'package:timeline/search_manager.dart';
-import 'package:timeline/timeline/timeline.dart';
-import 'package:timeline/timeline/timeline_entry.dart';
 
 /// This [InheritedWidget] wraps the whole app, and provides access
 /// to the user's favorites through the [FavoritesBloc]
@@ -19,13 +15,13 @@ class BlocProvider extends InheritedWidget {
   /// The timeline.json file contains all the entries' data.
   /// Once those entries have been loaded, load also all the favorites.
   /// Lastly use the entries' references to load a local dictionary for the [SearchManager].
-  BlocProvider(
-      {Key? key,
-      FavoritesBloc? fb,
-      Timeline? t,
-      required Widget child,
-      TargetPlatform platform = TargetPlatform.iOS})
-      : timeline = t ?? Timeline(platform),
+  BlocProvider({
+    Key key,
+    FavoritesBloc fb,
+    Timeline t,
+    Widget child,
+    TargetPlatform platform = TargetPlatform.iOS,
+  })  : timeline = t ?? Timeline(platform),
         favoritesBloc = fb ?? FavoritesBloc(),
         super(key: key, child: child) {
     timeline
@@ -55,7 +51,7 @@ class BlocProvider extends InheritedWidget {
   static FavoritesBloc favorites(BuildContext context) {
     BlocProvider bp = (context
         .dependOnInheritedWidgetOfExactType<BlocProvider>() as BlocProvider);
-    FavoritesBloc? bloc = bp.favoritesBloc;
+    FavoritesBloc bloc = bp.favoritesBloc;
     return bloc;
   }
 
@@ -64,7 +60,7 @@ class BlocProvider extends InheritedWidget {
   static Timeline getTimeline(BuildContext context) {
     BlocProvider bp = (context
         .dependOnInheritedWidgetOfExactType<BlocProvider>() as BlocProvider);
-    Timeline? bloc = bp.timeline;
+    Timeline bloc = bp.timeline;
     return bloc;
   }
 }

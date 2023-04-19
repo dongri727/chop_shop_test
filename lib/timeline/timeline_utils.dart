@@ -1,8 +1,7 @@
-
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:timeline/timeline/timeline_entry.dart';
+import 'package:chop_shop_test/timeline/timeline_entry.dart';
 
 Color interpolateColor(Color from, Color to, double elapsed) {
   double r, g, b, a;

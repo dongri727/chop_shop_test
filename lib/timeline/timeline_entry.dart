@@ -1,38 +1,36 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 
-import 'package:flare_dart/animation/actor_animation.dart' as flare;
-import 'package:flare_dart/math/aabb.dart' as flare;
-import 'package:flare_dart/math/vec2d.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
 import 'package:nima/nima.dart' as nima;
 import 'package:nima/nima/animation/actor_animation.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;
+import 'package:nima/nima/math/aabb.dart';
 
 /// An object representing the renderable assets loaded from `timeline.json`.
 ///
 /// Each [TimelineAsset] encapsulates all the relevant properties for drawing,
 /// as well as maintaining a reference to its original [TimelineEntry].
 class TimelineAsset {
-  double? width;
-  double? height;
+  double width;
+  double height;
   double opacity = 0.0;
   double scale = 0.0;
   double scaleVelocity = 0.0;
   double y = 0.0;
   double velocity = 0.0;
-  String? filename;
-  TimelineEntry? entry;
+  String filename;
+  TimelineEntry entry;
 }
 
 /// A renderable image.
 class TimelineImage extends TimelineAsset {
-  ui.Image? image;
+  ui.Image image;
 }
 
 /// This asset also has information regarding its animations.
 class TimelineAnimatedAsset extends TimelineAsset {
-  bool? loop;
+  bool loop;
   double animationTime = 0.0;
   double offset = 0.0;
   double gap = 0.0;
@@ -59,8 +57,8 @@ class TimelineFlare extends TimelineAnimatedAsset {
   /// and custom-computed AABB bounds to properly position them in the timeline.
   flare.ActorAnimation intro;
   flare.ActorAnimation idle;
-  List<flare.ActorAnimation>? idleAnimations;
-  flare.AABB setupAABB;
+  List<flare.ActorAnimation> idleAnimations;
+  AABB setupAABB;
 }
 
 /// A label for [TimelineEntry].
@@ -72,32 +70,32 @@ enum TimelineEntryType { era, incident }
 ///
 /// They are all initialized at startup time by the [BlocProvider] constructor.
 class TimelineEntry {
-  TimelineEntryType? type;
+  TimelineEntryType type;
 
   /// Used to calculate how many lines to draw for the bubble in the timeline.
   int lineCount = 1;
 
   ///
   String _label = '';
-  String? articleFilename;
-  String? id;
+  String articleFilename;
+  String id;
 
-  Color? accent;
+  Color accent;
 
   /// Each entry constitues an element of a tree:
   /// eras are grouped into spanning eras and events are placed into the eras they belong to.
-  TimelineEntry? parent;
-  List<TimelineEntry>? children;
+  TimelineEntry parent;
+  List<TimelineEntry> children = [];
 
   /// All the timeline entries are also linked together to easily access the next/previous event.
   /// After a couple of seconds of inactivity on the timeline, a previous/next entry button will appear
   /// to allow the user to navigate faster between adjacent events.
-  TimelineEntry? next;
-  TimelineEntry? previous;
+  TimelineEntry next;
+  TimelineEntry previous;
 
   /// All these parameters are used by the [Timeline] object to properly position the current entry.
-  double? start;
-  double? end;
+  double start;
+  double end;
   double y = 0.0;
   double endY = 0.0;
   double length = 0.0;
@@ -113,7 +111,7 @@ class TimelineEntry {
   double favoriteY = 0.0;
   bool isFavoriteOccluded = false;
 
-  TimelineAsset? asset;
+  TimelineAsset asset;
 
   bool get isVisible {
     return opacity > 0.0;
@@ -125,10 +123,10 @@ class TimelineEntry {
   /// Detect the occurrence and add information regarding the line-count.
   set label(String value) {
     _label = value;
-    int? start = 0;
+    int start = 0;
     lineCount = 1;
     while (true) {
-      start = _label.indexOf("\n", start!);
+      start = _label.indexOf("\n", start);
       if (start == -1) {
         break;
       }
@@ -138,11 +136,11 @@ class TimelineEntry {
   }
 
   /// Pretty-printing for the entry date.
-  String? formatYearsAgo() {
-    if (start! > 0) {
+  String formatYearsAgo() {
+    if (start > 0) {
       return start?.round().toString();
     }
-    return "${TimelineEntry.formatYears(start!)} Ago";
+    return "${TimelineEntry.formatYears(start)} Ago";
   }
 
   /// Debug information.

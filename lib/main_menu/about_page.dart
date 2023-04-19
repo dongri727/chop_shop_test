@@ -1,13 +1,13 @@
+import 'package:chop_shop_test/colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:timeline/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// This widget is visible when opening the about page from the [MainMenuWidget].
-/// 
-/// It displays all the information about the development of the application, 
+///
+/// It displays all the information about the development of the application,
 /// the inspiration sources and tools and SDK used throughout the development process.
-/// 
+///
 /// This page uses the package `url_launcher` available at https://pub.dartlang.org/packages/url_launcher
 /// to open up urls in a WebView on both iOS & Android.
 class AboutPage extends StatelessWidget {

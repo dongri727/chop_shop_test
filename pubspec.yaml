@@ -6,23 +6,83 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.5 <3.0.0'
+  sdk: '>=2.1.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
+#  cupertino_icons: ^1.0.2
+  intl: ">=0.14.0"
+  rxdart: ^0.19.0
+  shared_preferences: ^0.4.3
+  flutter_markdown: ^0.2.0
+  url_launcher: ^5.7.7
+  nima: ^1.0.5
+  flare_flutter: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
-  shared_preferences: ^2.1.0
+#  flutter_lints: ^2.0.0
 
 flutter:
 
   uses-material-design: true
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+    - family: RobotoMedium
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+    - assets/Articles/
+    - assets/Big_Bang/
+    - assets/Milky Way/
+    - assets/Mammals/
+    - assets/Dinosaurs/
+    - assets/Insects/
+    - assets/Fish_and_Stuff/
+    - assets/Cells/
+    - assets/Dinosaur_Demise/
+    - assets/Reptiles/
+    - assets/World_War_I/
+    - assets/Moon/
+    - assets/Newton/
+    - assets/Cold_war/
+    - assets/Crusades/
+    - assets/Homo_Sapiens_Sapiens/
+    - assets/Nelson Mandela_v2/
+    - assets/Martin Luther king/
+    - assets/Sufraggette_movement/
+    - assets/Marie_Curie/
+    - assets/Amelia_Earhart/
+    - assets/Alan_Turing/
+    - assets/World_War_II/
+    - assets/Darwin 2/
+    - assets/Internet/
+    - assets/Agricultural_evolution/
+    - assets/Writing/
+    - assets/Recorded_history/
+    - assets/Pyramid/
+    - assets/Roma/
+    - assets/Industrialization/
+    - assets/Constantinople/
+    - assets/BlackPlague/
+    - assets/First_Temple/
+    - assets/Apes/
+    - assets/Constructive_Tools/
+    - assets/Fire/
+    # - assets/search_icon.png
+    # - assets/flutter_logo.png
+    # - assets/right_arrow.png
+  #  - images/a_dot_burr.jpeg
+  #  - images/a_dot_ham.jpeg
+
 flutter_intl:
   enabled: true

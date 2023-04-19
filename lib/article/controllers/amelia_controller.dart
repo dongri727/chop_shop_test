@@ -1,9 +1,10 @@
-import 'package:flare_flutter/flare.dart';
-import 'package:flare_dart/math/mat2d.dart';
-import 'package:flare_dart/math/vec2d.dart';
-import 'flare_interaction_controller.dart';
-
 // "Amelia Earhart" Article Page contains a custom controller.
+import 'package:chop_shop_test/article/controllers/flare_interaction_controller.dart';
+import 'package:flare_flutter/flare.dart';
+import 'package:nima/nima/actor_node.dart' as nima;
+import 'package:nima/nima/math/mat2d.dart';
+import 'package:nima/nima/math/vec2d.dart';
+
 /// Since Amelias Earhart's animation was built in Flare, it'll interface with the Flare library (https://github.com/2d-inc/Flare-Flutter).
 /// Take a look at the character at https://www.2dimensions.com/a/JuanCarlos/files/flare/amelia-earhart_v2/preview
 class AmeliaController extends FlareInteractionController {
@@ -12,17 +13,18 @@ class AmeliaController extends FlareInteractionController {
   /// That means that by grabbing a reference to that node, and tying its translation
   /// to the users' touch input on the screen, we can move the plane and that'll be followed along by
   /// Amelia's face elements.
-  ActorNode _ctrlFace;
+  nima.ActorNode _ctrlFace;
+
   /// Get a reference to the touch position and the original translation values.
   Vec2D _lastTouchPosition;
   Vec2D _originalTranslation;
 
-  /// As seen in [FlareInteractionController], this method allows us to set up 
+  /// As seen in [FlareInteractionController], this method allows us to set up
   /// local variables as needed. In this case we grab a reference to the controlling node
   /// and the original translation position for the face.
   @override
   void initialize(FlutterActorArtboard artboard) {
-    _ctrlFace = artboard.getNode("ctrl_face");
+    _ctrlFace = artboard.getNode("ctrl_face") as nima.ActorNode;
     if (_ctrlFace != null) {
       _originalTranslation = Vec2D.clone(_ctrlFace.translation);
     }
@@ -37,6 +39,7 @@ class AmeliaController extends FlareInteractionController {
     if (touchPosition != null && _lastTouchPosition != null) {
       Vec2D move = Vec2D.subtract(Vec2D(), touchPosition, _lastTouchPosition);
       Mat2D toParentSpace = Mat2D();
+
       /// Transform world coordinates into object space. Then evaluate the move delta
       /// and apply it to the control.
       if (Mat2D.invert(toParentSpace, _ctrlFace.parent.worldTransform)) {

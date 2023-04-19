@@ -1,44 +1,37 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:chop_shop_test/colors.dart';
 import 'package:chop_shop_test/main_menu/menu_data.dart';
 import 'package:chop_shop_test/timeline/ticks.dart';
 import 'package:chop_shop_test/timeline/timeline.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
-import 'package:flare_dart/actor_image.dart' as flare;
-import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:nima/nima/actor_image.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;
-import 'package:timeline/colors.dart';
-import 'package:timeline/main_menu/menu_data.dart';
-import 'package:timeline/timeline/ticks.dart';
-import 'package:timeline/timeline/timeline.dart';
-import 'package:timeline/timeline/timeline_entry.dart';
-import 'package:timeline/timeline/timeline_utils.dart';
+import 'package:nima/nima/math/aabb.dart';
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
 /// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
-typedef TouchBubbleCallback = Function(TapTarget? bubble);
-typedef TouchEntryCallback = Function(TimelineEntry? entry);
+typedef TouchBubbleCallback = Function(TapTarget bubble);
+typedef TouchEntryCallback = Function(TimelineEntry entry);
 
 /// This couples with [TimelineRenderObject].
 ///
 /// This widget's fields are accessible from the [RenderBox] so that it can
 /// be aligned with the current state.
 class TimelineRenderWidget extends LeafRenderObjectWidget {
-  final double? topOverlap;
-  final Timeline? timeline;
-  final MenuItemData? focusItem;
-  final List<TimelineEntry>? favorites;
-  final TouchBubbleCallback? touchBubble;
-  final TouchEntryCallback? touchEntry;
+  final double topOverlap;
+  final Timeline timeline;
+  final MenuItemData focusItem;
+  final List<TimelineEntry> favorites;
+  final TouchBubbleCallback touchBubble;
+  final TouchEntryCallback touchEntry;
 
   const TimelineRenderWidget(
-      {Key? key,
+      {Key key,
       this.focusItem,
       this.touchBubble,
       this.touchEntry,
@@ -50,29 +43,29 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context) {
     return TimelineRenderObject()
-      ..timeline = timeline!
-      ..touchBubble = touchBubble!
-      ..touchEntry = touchEntry!
-      ..focusItem = focusItem!
-      ..favorites = favorites!
-      ..topOverlap = topOverlap!;
+      ..timeline = timeline
+      ..touchBubble = touchBubble
+      ..touchEntry = touchEntry
+      ..focusItem = focusItem
+      ..favorites = favorites
+      ..topOverlap = topOverlap;
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant TimelineRenderObject renderObject) {
     renderObject
-      ..timeline = timeline!
-      ..focusItem = focusItem!
-      ..touchBubble = touchBubble!
-      ..touchEntry = touchEntry!
-      ..favorites = favorites!
-      ..topOverlap = topOverlap!;
+      ..timeline = timeline
+      ..focusItem = focusItem
+      ..touchBubble = touchBubble
+      ..touchEntry = touchEntry
+      ..favorites = favorites
+      ..topOverlap = topOverlap;
   }
 
   @override
   didUnmountRenderObject(covariant TimelineRenderObject renderObject) {
-    renderObject.timeline?.isActive = false;
+    renderObject.timeline.isActive = false;
   }
 }
 
@@ -92,13 +85,13 @@ class TimelineRenderObject extends RenderBox {
 
   double _topOverlap = 0.0;
   final Ticks _ticks = Ticks();
-  late Timeline _timeline;
-  late MenuItemData _focusItem;
-  MenuItemData? _processedFocusItem;
+  Timeline _timeline;
+  MenuItemData _focusItem;
+  MenuItemData _processedFocusItem;
   final List<TapTarget> _tapTargets = <TapTarget>[];
   List<TimelineEntry> _favorites = [];
-  TouchBubbleCallback? touchBubble;
-  TouchEntryCallback? touchEntry;
+  TouchBubbleCallback touchBubble;
+  TouchEntryCallback touchEntry;
 
   @override
   bool get sizedByParent => true;
@@ -177,16 +170,16 @@ class TimelineRenderObject extends RenderBox {
   /// Check if the current tap on the screen has hit a bubble.
   @override
   bool hitTestSelf(Offset screenOffset) {
-    touchEntry!(null);
+    touchEntry(null);
     for (TapTarget bubble in _tapTargets.reversed) {
       if (bubble.rect.contains(screenOffset)) {
         if (touchBubble != null) {
-          touchBubble!(bubble);
+          touchBubble(bubble);
         }
         return true;
       }
     }
-    touchBubble!(null);
+    touchBubble(null);
 
     return true;
   }
@@ -255,14 +248,14 @@ class TimelineRenderObject extends RenderBox {
       if (asset.opacity > 0) {
         double rs = 0.2 + asset.scale * 0.8;
 
-        double w = asset.width! * Timeline.AssetScreenScale;
-        double h = asset.height! * Timeline.AssetScreenScale;
+        double w = asset.width * Timeline.AssetScreenScale;
+        double h = asset.height * Timeline.AssetScreenScale;
 
         /// Draw the correct asset.
         if (asset is TimelineImage) {
           canvas.drawImageRect(
-              asset.image!,
-              Rect.fromLTWH(0.0, 0.0, asset.width!, asset.height!),
+              asset.image,
+              Rect.fromLTWH(0.0, 0.0, asset.width, asset.height),
               Rect.fromLTWH(
                   offset.dx + size.width - w, asset.y, w * rs, h * rs),
               Paint()
@@ -369,7 +362,7 @@ class TimelineRenderObject extends RenderBox {
           Alignment alignment = Alignment.center;
           BoxFit fit = BoxFit.cover;
 
-          flare.AABB bounds = asset.setupAABB;
+          AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
           double x = -bounds[0] -
@@ -656,7 +649,7 @@ class TimelineRenderObject extends RenderBox {
     ///
     /// Here the gutter gets drawn, and the elements are added as *tappable* targets.
     double favoritesGutter = _timeline.gutterWidth - Timeline.GutterLeft;
-    if (_favorites.length > 0 && favoritesGutter > 0.0) {
+    if (_favorites.isNotEmpty && favoritesGutter > 0.0) {
       Paint accentPaint = Paint()
         ..color = favoritesGutterAccent
         ..style = PaintingStyle.stroke
@@ -803,7 +796,7 @@ class TimelineRenderObject extends RenderBox {
             ..rect = renderOffset & renderSize
             ..zoom = true);
         } else if (asset is TimelineFlare && asset.actorStatic != null) {
-          flare.AABB bounds = asset.setupAABB;
+          AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
           double x = -bounds[0] -
@@ -881,7 +874,7 @@ class TimelineRenderObject extends RenderBox {
       /// the two circles, with the time between those two favorites as a label within a bubble.
       ///
       /// Uses same [ui.ParagraphBuilder] logic as seen above.
-      TimelineEntry previous;
+      TimelineEntry previous = TimelineEntry();
       for (TimelineEntry favorite in _favorites) {
         if (favorite.isFavoriteOccluded) {
           continue;
@@ -956,15 +949,11 @@ class TimelineRenderObject extends RenderBox {
           entryOffset,
           Timeline.EdgeRadius,
           Paint()
-            ..color = (item.accent != null
-                    ? item.accent
-                    : LineColors[depth % LineColors.length])
+            ..color = (item.accent ?? LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity));
       if (legOpacity > 0.0) {
         Paint legPaint = Paint()
-          ..color = (item.accent != null
-                  ? item.accent
-                  : LineColors[depth % LineColors.length])
+          ..color = (item.accent ?? LineColors[depth % LineColors.length])
               .withOpacity(legOpacity);
 
         /// Draw the line connecting the start&point of this item on the timeline.
@@ -1009,9 +998,7 @@ class TimelineRenderObject extends RenderBox {
       canvas.drawPath(
           bubble,
           Paint()
-            ..color = (item.accent != null
-                    ? item.accent
-                    : LineColors[depth % LineColors.length])
+            ..color = (item.accent ?? LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(BubblePadding, 0.0, textWidth, bubbleHeight));
@@ -1025,7 +1012,7 @@ class TimelineRenderObject extends RenderBox {
           Offset(
               BubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
-      if (item.children != null) {
+      if (item.children != []) {
         /// Draw the other elements in the hierarchy.
         drawItems(context, offset, item.children, x + Timeline.DepthOffset,
             scale, depth + 1);

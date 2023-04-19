@@ -1,27 +1,22 @@
 import "dart:async";
-import "dart:io";
 
-import 'package:flutter/cupertino.dart';
+import 'package:chop_shop_test/bloc_provider.dart';
+import 'package:chop_shop_test/colors.dart';
+import 'package:chop_shop_test/main_menu/about_page.dart';
+import 'package:chop_shop_test/main_menu/collapsible.dart';
+import 'package:chop_shop_test/main_menu/favorites_page.dart';
+import 'package:chop_shop_test/main_menu/main_menu_section.dart';
+import 'package:chop_shop_test/main_menu/menu_data.dart';
+import 'package:chop_shop_test/main_menu/search_widget.dart';
+import 'package:chop_shop_test/main_menu/thumbnail_detail_widget.dart';
+import 'package:chop_shop_test/search_manager.dart';
+import 'package:chop_shop_test/timeline/timeline_entry.dart';
+import 'package:chop_shop_test/timeline/timeline_widget.dart';
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
-import "package:share/share.dart";
-import 'package:timeline/bloc_provider.dart';
-import 'package:timeline/main_menu/collapsible.dart';
 
-import "package:timeline/main_menu/menu_data.dart";
-import "package:timeline/main_menu/search_widget.dart";
-import "package:timeline/main_menu/main_menu_section.dart";
-import "package:timeline/main_menu/about_page.dart";
-import "package:timeline/main_menu/favorites_page.dart";
-import 'package:timeline/main_menu/thumbnail_detail_widget.dart';
-import "package:timeline/search_manager.dart";
-import "package:timeline/colors.dart";
-import "package:timeline/timeline/timeline_entry.dart";
-import 'package:timeline/timeline/timeline_widget.dart';
-
-/// The Main Page of the Timeline App. 
-/// 
-/// This Widget lays out the search bar at the top of the page, 
+/// The Main Page of the Timeline App.
+///
+/// This Widget lays out the search bar at the top of the page,
 /// the three card-sections for accessing the main events on the Timeline,
 /// and it'll provide on the bottom three links for quick access to your Favorites,
 /// a Share Menu and the About Page.
@@ -34,12 +29,12 @@ class MainMenuWidget extends StatefulWidget {
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
   /// State is maintained for two reasons:
-  /// 
+  ///
   /// 1. Search Functionality:
-  /// When the search bar is tapped, the Widget view is filled with all the 
+  /// When the search bar is tapped, the Widget view is filled with all the
   /// search info -- i.e. the [ListView] containing all the results.
   bool _isSearching = false;
-  
+
   /// 2. Section Animations:
   /// Each card section contains a Flare animation that's playing in the background.
   /// These animations are paused when they're not visible anymore (e.g. when search is visible instead),
@@ -47,7 +42,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   bool _isSectionActive = true;
 
   /// The [List] of search results that is displayed when searching.
-  List<TimelineEntry> _searchResults = List<TimelineEntry>();
+  List<TimelineEntry> _searchResults = <TimelineEntry>[];
 
   /// [MenuData] is a wrapper object for the data of each Card section.
   /// This data is loaded from the asset bundle during [initState()]
@@ -69,7 +64,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   /// Helper function which sets the [MenuItemData] for the [TimelineWidget].
   /// This will trigger a transition from the current menu to the Timeline,
   /// thus the push on the [Navigator], and by providing the [item] as
-  /// a parameter to the [TimelineWidget] constructor, this widget will know 
+  /// a parameter to the [TimelineWidget] constructor, this widget will know
   /// where to scroll to.
   navigateToTimeline(MenuItemData item) {
     _pauseSection();
@@ -90,13 +85,14 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     cancelSearch();
     if (!_isSearching) {
       setState(() {
-        _searchResults = List<TimelineEntry>();
+        _searchResults = <TimelineEntry>[];
       });
       return;
     }
     String txt = _searchTextController.text.trim();
+
     /// Perform search.
-    /// 
+    ///
     /// A [Timer] is used to prevent unnecessary searches while the user is typing.
     _searchTimer = Timer(Duration(milliseconds: txt.isEmpty ? 0 : 350), () {
       Set<TimelineEntry> res = SearchManager.init().performSearch(txt);
@@ -106,15 +102,19 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     });
   }
 
+  @override
   initState() {
     super.initState();
 
     /// The [_menu] loads a JSON file that's stored in the assets folder.
     /// This asset provides all the necessary information for the cards,
     /// such as labels, background colors, the background Flare animation asset,
-    /// and for each element in the expanded card, the relative position on the [Timeline]. 
+    /// and for each element in the expanded card, the relative position on the [Timeline].
     _menu.loadFromBundle("assets/menu.json").then((bool success) {
-      if (success) setState(() {}); // Load the menu.
+      if (success) {
+        print('seikou');
+        setState(() {});
+      } // Load the menu.
     });
 
     _searchTextController.addListener(() {
@@ -154,22 +154,22 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
 
     List<Widget> tail = [];
+
     /// Check the current state before creating the layout for the menu (i.e. [tail]).
-    /// 
+    ///
     /// If the app is searching, lay out the results.
     /// Otherwise, insert the menu information with all the various sections.
     if (_isSearching) {
       for (int i = 0; i < _searchResults.length; i++) {
-        tail.add(RepaintBoundary(child: 
-            ThumbnailDetailWidget(_searchResults[i],
-            hasDivider: i != 0, tapSearchResult: _tapSearchResult)
-        ));
+        tail.add(RepaintBoundary(
+            child: ThumbnailDetailWidget(_searchResults[i],
+                hasDivider: i != 0, tapSearchResult: _tapSearchResult)));
       }
     } else {
       tail
         ..addAll(_menu.sections
             .map<Widget>((MenuSectionData section) => Container(
-                margin: EdgeInsets.only(top: 20.0),
+                margin: const EdgeInsets.only(top: 20.0),
                 child: MenuSection(
                   section.label,
                   section.backgroundColor,
@@ -181,11 +181,11 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                 )))
             .toList(growable: false))
         ..add(Container(
-          margin: EdgeInsets.only(top: 40.0, bottom: 22),
+          margin: const EdgeInsets.only(top: 40.0, bottom: 22),
           height: 1.0,
           color: const Color.fromRGBO(151, 151, 151, 0.29),
         ))
-        ..add(FlatButton(
+        ..add(ElevatedButton(
             onPressed: () {
               _pauseSection();
               Navigator.of(context)
@@ -193,11 +193,10 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                       builder: (BuildContext context) => FavoritesPage()))
                   .then(_restoreSection);
             },
-            color: Colors.transparent,
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Container(
-                margin: EdgeInsets.only(right: 15.5),
+                margin: const EdgeInsets.only(right: 15.5),
                 child: Image.asset("assets/heart_icon.png",
                     height: 20.0,
                     width: 20.0,
@@ -211,14 +210,12 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                     color: Colors.black.withOpacity(0.65)),
               )
             ])))
-        ..add(FlatButton(
-            onPressed: () => Share.share(
-                "Check out The History of Everything! " + (Platform.isAndroid ? "https://play.google.com/store/apps/details?id=com.twodimensions.timeline" : "itms://itunes.apple.com/us/app/apple-store/id1441257460?mt=8")),
-            color: Colors.transparent,
+        ..add(ElevatedButton(
+            onPressed: null,
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Container(
-                margin: EdgeInsets.only(right: 15.5),
+                margin: const EdgeInsets.only(right: 15.5),
                 child: Image.asset("assets/share_icon.png",
                     height: 20.0,
                     width: 20.0,
@@ -234,7 +231,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             ])))
         ..add(Padding(
           padding: const EdgeInsets.only(bottom: 30.0),
-          child: FlatButton(
+          child: ElevatedButton(
               onPressed: () {
                 _pauseSection();
                 Navigator.of(context)
@@ -242,11 +239,10 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                         builder: (BuildContext context) => AboutPage()))
                     .then(_restoreSection);
               },
-              color: Colors.transparent,
               child:
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Container(
-                  margin: EdgeInsets.only(right: 15.5),
+                  margin: const EdgeInsets.only(right: 15.5),
                   child: Image.asset("assets/info_icon.png",
                       height: 20.0,
                       width: 20.0,
@@ -274,8 +270,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
           child: Padding(
             padding: EdgeInsets.only(top: devicePadding.top),
             child: SingleChildScrollView(
-                padding:
-                    EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 20),
+                padding: const EdgeInsets.only(
+                    top: 20.0, left: 20, right: 20, bottom: 20),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -301,7 +297,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                                             fontFamily: "RobotoMedium"))
                                   ])),
                           Padding(
-                              padding: EdgeInsets.only(top: 22.0),
+                              padding: const EdgeInsets.only(top: 22.0),
                               child: SearchWidget(
                                   _searchFocusNode, _searchTextController))
                         ] +

@@ -9,10 +9,12 @@ import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_render_widget.dart';
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-typedef ShowMenuCallback = Function();
-typedef SelectItemCallback = Function(TimelineEntry item);
+typedef ShowMenuCallback();
+typedef SelectItemCallback(TimelineEntry item);
 
 /// This is the Stateful Widget associated with the Timeline object.
 /// It is built from a [focusItem], that is the event the [Timeline] should

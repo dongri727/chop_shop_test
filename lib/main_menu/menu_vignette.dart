@@ -1,13 +1,16 @@
 import 'dart:math';
+import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:chop_shop_test/bloc_provider.dart';
 import 'package:chop_shop_test/timeline/timeline.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
+import 'package:flare_dart/actor_image.dart' as flare;
+import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nima/nima/math/aabb.dart' as nima;
-import 'package:nima/nima/math/aabb.dart';
 
 /// This widget renders a Flare/Nima [FlutterActor]. It relies on a [LeafRenderObjectWidget]
 /// so it can implement a custom [RenderObject] and update it accordingly.
@@ -113,7 +116,7 @@ class MenuVignetteRenderObject extends RenderBox {
   bool get sizedByParent => true;
 
   @override
-  bool hitTestSelf(Offset position) => true;
+  bool hitTestSelf(Offset screenOffset) => true;
 
   @override
   void performResize() {
@@ -160,7 +163,7 @@ class MenuVignetteRenderObject extends RenderBox {
             ..isAntiAlias = true
             ..filterQuality = ui.FilterQuality.low
             ..color = Colors.white.withOpacity(asset.opacity));
-    } else if (asset is TimelineNima) {
+    } else if (asset is TimelineNima && asset.actor != null) {
       Alignment alignment = Alignment.topRight;
       BoxFit fit = BoxFit.cover;
 
@@ -268,7 +271,7 @@ class MenuVignetteRenderObject extends RenderBox {
       /// An Axis-Aligned Bounding Box (AABB) is already set up when the asset is first loaded.
       /// We rely on this AABB to perform screen-space calculations.
 
-      AABB bounds = asset.setupAABB;
+      flare.AABB bounds = asset.setupAABB;
       double contentWidth = bounds[2] - bounds[0];
       double contentHeight = bounds[3] - bounds[1];
       double x =

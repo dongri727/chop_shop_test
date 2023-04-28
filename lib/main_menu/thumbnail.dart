@@ -26,7 +26,6 @@ class ThumbnailWidget extends StatelessWidget {
       thumbnail = TimelineEntryWidget(
         isActive: false,
         timelineEntry: entry,
-        interactOffset: Offset(1, 1),
       );
     } else {
       thumbnail = Container(
@@ -34,7 +33,7 @@ class ThumbnailWidget extends StatelessWidget {
       );
     }
 
-    return SizedBox(
+    return Container(
         width: radius * 2,
         height: radius * 2,
         child: ClipPath(clipper: CircleClipper(), child: thumbnail));

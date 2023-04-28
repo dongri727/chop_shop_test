@@ -1,10 +1,8 @@
-// "Amelia Earhart" Article Page contains a custom controller.
-import 'package:chop_shop_test/article/controllers/flare_interaction_controller.dart';
 import 'package:flare_flutter/flare.dart';
-import 'package:nima/nima/actor_node.dart' as nima;
-import 'package:nima/nima/math/mat2d.dart';
-import 'package:nima/nima/math/vec2d.dart';
 
+import 'flare_interaction_controller.dart';
+
+// "Amelia Earhart" Article Page contains a custom controller.
 /// Since Amelias Earhart's animation was built in Flare, it'll interface with the Flare library (https://github.com/2d-inc/Flare-Flutter).
 /// Take a look at the character at https://www.2dimensions.com/a/JuanCarlos/files/flare/amelia-earhart_v2/preview
 class AmeliaController extends FlareInteractionController {
@@ -13,7 +11,7 @@ class AmeliaController extends FlareInteractionController {
   /// That means that by grabbing a reference to that node, and tying its translation
   /// to the users' touch input on the screen, we can move the plane and that'll be followed along by
   /// Amelia's face elements.
-  nima.ActorNode _ctrlFace;
+  ActorNode _ctrlFace;
 
   /// Get a reference to the touch position and the original translation values.
   Vec2D _lastTouchPosition;
@@ -24,7 +22,7 @@ class AmeliaController extends FlareInteractionController {
   /// and the original translation position for the face.
   @override
   void initialize(FlutterActorArtboard artboard) {
-    _ctrlFace = artboard.getNode("ctrl_face") as nima.ActorNode;
+    _ctrlFace = artboard.getNode("ctrl_face");
     if (_ctrlFace != null) {
       _originalTranslation = Vec2D.clone(_ctrlFace.translation);
     }

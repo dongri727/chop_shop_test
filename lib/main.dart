@@ -12,15 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return BlocProvider(
-      platform: Theme.of(context).platform,
       child: MaterialApp(
         title: 'History & Future of Everything',
         theme: ThemeData(
-          backgroundColor: background,
-          scaffoldBackgroundColor: background,
-        ),
+            backgroundColor: background, scaffoldBackgroundColor: background),
         home: MenuPage(),
       ),
+      platform: Theme.of(context).platform,
     );
   }
 }

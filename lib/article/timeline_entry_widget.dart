@@ -6,15 +6,13 @@ import 'package:chop_shop_test/article/controllers/flare_interaction_controller.
 import 'package:chop_shop_test/article/controllers/newton_controller.dart';
 import 'package:chop_shop_test/article/controllers/nima_interaction_controller.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
+import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nima/nima.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;
-import 'package:nima/nima/math/aabb.dart';
 import 'package:nima/nima/math/vec2d.dart' as nima;
-import 'package:nima/nima/math/vec2d.dart';
 
 /// This widget renders a single [TimelineEntry]. It relies on a [LeafRenderObjectWidget]
 /// so it can implement a custom [RenderObject] and update it accordingly.
@@ -283,7 +281,7 @@ class VignetteRenderObject extends RenderBox {
       /// 1. Calculate the bounds for the current object.
       /// An Axis-Aligned Bounding Box (AABB) is already set up when the asset is first loaded.
       /// We rely on this AABB to perform screen-space calculations.
-      AABB bounds = asset.setupAABB;
+      flare.AABB bounds = asset.setupAABB;
       double contentWidth = bounds[2] - bounds[0];
       double contentHeight = bounds[3] - bounds[1];
       double x =
@@ -491,9 +489,9 @@ class VignetteRenderObject extends RenderBox {
           asset.animation.apply(asset.animationTime, _flareActor, 1.0);
         }
         if (_flareController != null) {
-          Vec2D localTouchPosition;
+          flare.Vec2D localTouchPosition;
           if (interactOffset != null) {
-            AABB bounds = asset.setupAABB;
+            flare.AABB bounds = asset.setupAABB;
             double contentWidth = bounds[2] - bounds[0];
             double contentHeight = bounds[3] - bounds[1];
             double x = -bounds[0] -
@@ -552,7 +550,7 @@ class VignetteRenderObject extends RenderBox {
 
             /// Use this logic to evaluate the correct touch position that will
             /// be passed down to [FlareInteractionController.advance()].
-            localTouchPosition = Vec2D.fromValues(dx, dy);
+            localTouchPosition = flare.Vec2D.fromValues(dx, dy);
           }
 
           /// Perform the actual [advance()]ing.

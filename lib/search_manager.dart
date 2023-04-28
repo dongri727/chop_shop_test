@@ -40,9 +40,9 @@ class SearchManager {
           String substring = label.substring(i, j).toLowerCase();
           if (_queryMap.containsKey(substring)) {
             Set<TimelineEntry> labels = _queryMap[substring];
-            labels?.add(e);
+            labels.add(e);
           } else {
-            _queryMap.putIfAbsent(substring, () => {e});
+            _queryMap.putIfAbsent(substring, () => Set.from([e]));
           }
         }
       }
@@ -51,14 +51,14 @@ class SearchManager {
 
   /// Use the [SplayTreeMap] query function to return the full [Set] of results.
   /// This operation amortized logarithmic time.
-  Set performSearch(String query) {
-    if (_queryMap.containsKey(query)) {
+  Set<TimelineEntry> performSearch(String query) {
+    if (_queryMap.containsKey(query))
       return _queryMap[query];
-    } else if (query.isNotEmpty) {
-      return <dynamic>{};
+    else if (query.isNotEmpty) {
+      return Set();
     }
     Iterable<String> keys = _queryMap.keys;
-    Set<TimelineEntry> res = {};
+    Set<TimelineEntry> res = Set();
     for (String k in keys) {
       res.addAll(_queryMap[k]);
     }

@@ -15,13 +15,13 @@ class BlocProvider extends InheritedWidget {
   /// The timeline.json file contains all the entries' data.
   /// Once those entries have been loaded, load also all the favorites.
   /// Lastly use the entries' references to load a local dictionary for the [SearchManager].
-  BlocProvider({
-    Key key,
-    FavoritesBloc fb,
-    Timeline t,
-    Widget child,
-    TargetPlatform platform = TargetPlatform.iOS,
-  })  : timeline = t ?? Timeline(platform),
+  BlocProvider(
+      {Key key,
+      FavoritesBloc fb,
+      Timeline t,
+      @required Widget child,
+      TargetPlatform platform = TargetPlatform.iOS})
+      : timeline = t ?? Timeline(platform),
         favoritesBloc = fb ?? FavoritesBloc(),
         super(key: key, child: child) {
     timeline
@@ -49,18 +49,18 @@ class BlocProvider extends InheritedWidget {
   /// static accessor for the [FavoritesBloc].
   /// e.g. [ArticleWidget] retrieves the favorites information using this static getter.
   static FavoritesBloc favorites(BuildContext context) {
-    BlocProvider bp = (context
-        .dependOnInheritedWidgetOfExactType<BlocProvider>() as BlocProvider);
-    FavoritesBloc bloc = bp.favoritesBloc;
+    BlocProvider bp =
+        context.dependOnInheritedWidgetOfExactType<BlocProvider>();
+    FavoritesBloc bloc = bp?.favoritesBloc;
     return bloc;
   }
 
   /// static accessor for the [Timeline].
   /// e.g. [_MainMenuWidgetState.navigateToTimeline] uses this static getter to access build the [TimelineWidget].
   static Timeline getTimeline(BuildContext context) {
-    BlocProvider bp = (context
-        .dependOnInheritedWidgetOfExactType<BlocProvider>() as BlocProvider);
-    Timeline bloc = bp.timeline;
+    BlocProvider bp =
+        context.dependOnInheritedWidgetOfExactType<BlocProvider>();
+    Timeline bloc = bp?.timeline;
     return bloc;
   }
 }

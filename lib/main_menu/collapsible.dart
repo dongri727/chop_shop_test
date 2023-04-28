@@ -18,7 +18,6 @@ class CollapsibleState extends State<Collapsible>
   /// The [AnimationController] is a Flutter Animation object that generates a new value
   /// whenever the hardware is ready to draw a new frame.
   AnimationController _controller;
-
   /// Since the above object interpolates only between 0 and 1, but we'd rather apply a curve to the current
   /// animation, we're providing a custom [Tween] that allows to build more advanced animations, as seen in [initState()].
   static final Animatable<double> _sizeTween = Tween<double>(
@@ -38,14 +37,11 @@ class CollapsibleState extends State<Collapsible>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-
-    /// This curve is controlled by [_controller].
+    /// This curve is controlled by [_controller]. 
     final CurvedAnimation curve =
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
-
     /// [_sizeAnimation] will interpolate using this curve - [Curves.fastOutSlowIn].
     _sizeAnimation = _sizeTween.animate(curve);
-
     /// Sanity check.
     if (!widget.isCollapsed) {
       _controller.forward(from: 1.0);
@@ -65,7 +61,7 @@ class CollapsibleState extends State<Collapsible>
     }
   }
 
-  /// Clean up the resources.
+  /// Clean up the resources.  
   @override
   dispose() {
     _controller.dispose();

@@ -1,11 +1,11 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 
+import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
 import 'package:nima/nima.dart' as nima;
 import 'package:nima/nima/animation/actor_animation.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;
-import 'package:nima/nima/math/aabb.dart';
 
 /// An object representing the renderable assets loaded from `timeline.json`.
 ///
@@ -58,11 +58,11 @@ class TimelineFlare extends TimelineAnimatedAsset {
   flare.ActorAnimation intro;
   flare.ActorAnimation idle;
   List<flare.ActorAnimation> idleAnimations;
-  AABB setupAABB;
+  flare.AABB setupAABB;
 }
 
 /// A label for [TimelineEntry].
-enum TimelineEntryType { era, incident }
+enum TimelineEntryType { Era, Incident }
 
 /// Each entry in the timeline is represented by an instance of this object.
 /// Each favorite, search result and detail page will grab the information from a reference
@@ -76,7 +76,7 @@ class TimelineEntry {
   int lineCount = 1;
 
   ///
-  String _label = '';
+  String _label;
   String articleFilename;
   String id;
 
@@ -85,7 +85,7 @@ class TimelineEntry {
   /// Each entry constitues an element of a tree:
   /// eras are grouped into spanning eras and events are placed into the eras they belong to.
   TimelineEntry parent;
-  List<TimelineEntry> children = [];
+  List<TimelineEntry> children;
 
   /// All the timeline entries are also linked together to easily access the next/previous event.
   /// After a couple of seconds of inactivity on the timeline, a previous/next entry button will appear
@@ -138,9 +138,9 @@ class TimelineEntry {
   /// Pretty-printing for the entry date.
   String formatYearsAgo() {
     if (start > 0) {
-      return start?.round().toString();
+      return start.round().toString();
     }
-    return "${TimelineEntry.formatYears(start)} Ago";
+    return TimelineEntry.formatYears(start) + " Ago";
   }
 
   /// Debug information.
@@ -156,20 +156,23 @@ class TimelineEntry {
     if (valueAbs > 1000000000) {
       double v = (valueAbs / 100000000.0).floorToDouble() / 10.0;
 
-      label =
-          "${(valueAbs / 1000000000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1)} Billion";
+      label = (valueAbs / 1000000000)
+              .toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
+          " Billion";
     } else if (valueAbs > 1000000) {
       double v = (valueAbs / 100000.0).floorToDouble() / 10.0;
       label =
-          "${(valueAbs / 1000000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1)} Million";
+          (valueAbs / 1000000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
+              " Million";
     } else if (valueAbs > 10000) // N.B. < 10,000
     {
       double v = (valueAbs / 100.0).floorToDouble() / 10.0;
       label =
-          "${(valueAbs / 1000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1)} Thousand";
+          (valueAbs / 1000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
+              " Thousand";
     } else {
       label = valueAbs.toStringAsFixed(0);
     }
-    return "$label Years";
+    return label + " Years";
   }
 }

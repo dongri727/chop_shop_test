@@ -5,7 +5,6 @@ import 'package:chop_shop_test/main_menu/thumbnail_detail_widget.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_widget.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// This widget is displayed when tapping on the Favorites button in the [MainMenuWidget].
@@ -28,13 +27,11 @@ class FavoritesPage extends StatelessWidget {
     for (int i = 0; i < entries.length; i++) {
       TimelineEntry entry = entries[i];
       favorites.add(ThumbnailDetailWidget(entry, hasDivider: i != 0,
-          tapSearchResult: (TimelineEntry entry) {
+          tapSearchResult: (entry) {
         MenuItemData item = MenuItemData.fromEntry(entry);
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  TimelineWidget(item, BlocProvider.getTimeline(context))),
-        );
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                TimelineWidget(item, BlocProvider.getTimeline(context))));
       }));
     }
 
@@ -54,8 +51,8 @@ class FavoritesPage extends StatelessWidget {
           centerTitle: false,
           leading: IconButton(
             alignment: Alignment.centerLeft,
-            icon: const Icon(Icons.arrow_back),
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            icon: Icon(Icons.arrow_back),
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
             color: Colors.black.withOpacity(0.5),
             onPressed: () {
               Navigator.pop(context, true);
@@ -82,11 +79,11 @@ class FavoritesPage extends StatelessWidget {
                           Container(
                               width: 128.0,
                               height: 114.0,
-                              margin: const EdgeInsets.only(bottom: 30),
+                              margin: EdgeInsets.only(bottom: 30),
                               child: FlareActor("assets/Broken Heart.flr",
                                   animation: "Heart Break", shouldClip: false)),
                           Container(
-                            padding: const EdgeInsets.only(bottom: 21),
+                            padding: EdgeInsets.only(bottom: 21),
                             width: 250,
                             child: Text("You haven’t favorited anything yet.",
                                 textAlign: TextAlign.center,
@@ -100,7 +97,7 @@ class FavoritesPage extends StatelessWidget {
                           ),
                           Container(
                             width: 270,
-                            margin: const EdgeInsets.only(bottom: 114),
+                            margin: EdgeInsets.only(bottom: 114),
                             child: Text(
                                 "Browse to an event in the timeline and tap on the heart icon to save something in this list.",
                                 textAlign: TextAlign.center,

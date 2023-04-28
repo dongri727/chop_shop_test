@@ -42,7 +42,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   bool _isSectionActive = true;
 
   /// The [List] of search results that is displayed when searching.
-  List<TimelineEntry> _searchResults = <TimelineEntry>[];
+  List<TimelineEntry> _searchResults = [];
 
   /// [MenuData] is a wrapper object for the data of each Card section.
   /// This data is loaded from the asset bundle during [initState()]
@@ -85,7 +85,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     cancelSearch();
     if (!_isSearching) {
       setState(() {
-        _searchResults = <TimelineEntry>[];
+        _searchResults = [];
       });
       return;
     }
@@ -102,7 +102,6 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     });
   }
 
-  @override
   initState() {
     super.initState();
 
@@ -111,10 +110,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     /// such as labels, background colors, the background Flare animation asset,
     /// and for each element in the expanded card, the relative position on the [Timeline].
     _menu.loadFromBundle("assets/menu.json").then((bool success) {
-      if (success) {
-        print('seikou');
-        setState(() {});
-      } // Load the menu.
+      if (success) setState(() {}); // Load the menu.
     });
 
     _searchTextController.addListener(() {
@@ -169,7 +165,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       tail
         ..addAll(_menu.sections
             .map<Widget>((MenuSectionData section) => Container(
-                margin: const EdgeInsets.only(top: 20.0),
+                margin: EdgeInsets.only(top: 20.0),
                 child: MenuSection(
                   section.label,
                   section.backgroundColor,
@@ -181,7 +177,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                 )))
             .toList(growable: false))
         ..add(Container(
-          margin: const EdgeInsets.only(top: 40.0, bottom: 22),
+          margin: EdgeInsets.only(top: 40.0, bottom: 22),
           height: 1.0,
           color: const Color.fromRGBO(151, 151, 151, 0.29),
         ))
@@ -196,7 +192,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Container(
-                margin: const EdgeInsets.only(right: 15.5),
+                margin: EdgeInsets.only(right: 15.5),
                 child: Image.asset("assets/heart_icon.png",
                     height: 20.0,
                     width: 20.0,
@@ -204,25 +200,6 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               ),
               Text(
                 "Your Favorites",
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: "RobotoMedium",
-                    color: Colors.black.withOpacity(0.65)),
-              )
-            ])))
-        ..add(ElevatedButton(
-            onPressed: null,
-            child:
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Container(
-                margin: const EdgeInsets.only(right: 15.5),
-                child: Image.asset("assets/share_icon.png",
-                    height: 20.0,
-                    width: 20.0,
-                    color: Colors.black.withOpacity(0.65)),
-              ),
-              Text(
-                "Share",
                 style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: "RobotoMedium",
@@ -242,7 +219,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               child:
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Container(
-                  margin: const EdgeInsets.only(right: 15.5),
+                  margin: EdgeInsets.only(right: 15.5),
                   child: Image.asset("assets/info_icon.png",
                       height: 20.0,
                       width: 20.0,
@@ -270,8 +247,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
           child: Padding(
             padding: EdgeInsets.only(top: devicePadding.top),
             child: SingleChildScrollView(
-                padding: const EdgeInsets.only(
-                    top: 20.0, left: 20, right: 20, bottom: 20),
+                padding:
+                    EdgeInsets.only(top: 20.0, left: 20, right: 20, bottom: 20),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -297,7 +274,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                                             fontFamily: "RobotoMedium"))
                                   ])),
                           Padding(
-                              padding: const EdgeInsets.only(top: 22.0),
+                              padding: EdgeInsets.only(top: 22.0),
                               child: SearchWidget(
                                   _searchFocusNode, _searchTextController))
                         ] +

@@ -497,7 +497,7 @@ class Timeline {
                 flareAsset.animation.apply(
                     flareAsset.animation.duration, flareAsset.actorStatic, 1.0);
                 flareAsset.actor.advance(0.0);
-                flareAsset.actorStatic.advance(0.0);
+                // flareAsset.actorStatic.advance(1);
 
                 dynamic loop = assetMap["loop"];
                 flareAsset.loop = loop is bool ? loop : true;

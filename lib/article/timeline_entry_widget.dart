@@ -1,10 +1,11 @@
+/*
 import 'dart:math';
 import "dart:ui" as ui;
 
-import 'package:chop_shop_test/article/controllers/amelia_controller.dart';
-import 'package:chop_shop_test/article/controllers/flare_interaction_controller.dart';
-import 'package:chop_shop_test/article/controllers/newton_controller.dart';
-import 'package:chop_shop_test/article/controllers/nima_interaction_controller.dart';
+//import 'package:chop_shop_test/article/controllers/amelia_controller.dart';
+//import 'package:chop_shop_test/article/controllers/flare_interaction_controller.dart';
+//import 'package:chop_shop_test/article/controllers/newton_controller.dart';
+//import 'package:chop_shop_test/article/controllers/nima_interaction_controller.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
@@ -72,8 +73,8 @@ class VignetteRenderObject extends RenderBox {
   TimelineEntry _timelineEntry;
   nima.FlutterActor _nimaActor;
   flare.FlutterActorArtboard _flareActor;
-  FlareInteractionController _flareController;
-  NimaInteractionController _nimaController;
+  //FlareInteractionController _flareController;
+  //NimaInteractionController _nimaController;
 
   /// Called whenever a new [TimelineEntry] is being set.
   updateActor() {
@@ -93,8 +94,8 @@ class VignetteRenderObject extends RenderBox {
         _nimaActor.advance(0.0);
         if (asset.filename == "assets/Newton/Newton_v2.nma") {
           /// Newton uses a custom controller! =)
-          _nimaController = NewtonController();
-          _nimaController.initialize(_nimaActor);
+          //_nimaController = NewtonController();
+          //_nimaController.initialize(_nimaActor);
         }
       } else if (asset is TimelineFlare && asset.actor != null) {
         /// Instance [_flareActor] through the actor reference in the asset
@@ -105,8 +106,8 @@ class VignetteRenderObject extends RenderBox {
         _flareActor.advance(0.0);
         if (asset.filename == "assets/Amelia_Earhart/Amelia_Earhart.flr") {
           /// Amelia Earhart uses a custom controller too..!
-          _flareController = AmeliaController();
-          _flareController.initialize(_flareActor);
+          //_flareController = AmeliaController();
+          //_flareController.initialize(_flareActor);
         }
       }
     }
@@ -387,7 +388,8 @@ class VignetteRenderObject extends RenderBox {
 
         /// Apply the current time to the [asset] animation.
         asset.animation.apply(asset.animationTime, _nimaActor, 1.0);
-        if (_nimaController != null) {
+       */
+/* if (_nimaController != null) {
           nima.Vec2D localTouchPosition;
           if (interactOffset != null) {
             nima.AABB bounds = asset.setupAABB;
@@ -454,7 +456,8 @@ class VignetteRenderObject extends RenderBox {
 
           /// This custom [NimaInteractionController] uses [localTouchPosition] to perform its calculations.
           _nimaController.advance(_nimaActor, localTouchPosition, elapsed);
-        }
+        }*//*
+
         _nimaActor.advance(elapsed);
       } else if (asset is TimelineFlare && _flareActor != null) {
         /// Some [TimelineFlare] assets have a custom intro that's played
@@ -488,7 +491,8 @@ class VignetteRenderObject extends RenderBox {
           /// Apply the current time to this [ActorAnimation].
           asset.animation.apply(asset.animationTime, _flareActor, 1.0);
         }
-        if (_flareController != null) {
+*/
+/*        if (_flareController != null) {
           flare.Vec2D localTouchPosition;
           if (interactOffset != null) {
             flare.AABB bounds = asset.setupAABB;
@@ -555,7 +559,8 @@ class VignetteRenderObject extends RenderBox {
 
           /// Perform the actual [advance()]ing.
           _flareController.advance(_flareActor, localTouchPosition, elapsed);
-        }
+        }*//*
+
 
         /// Advance the [FlutterActorArtboard].
         _flareActor.advance(elapsed);
@@ -572,3 +577,4 @@ class VignetteRenderObject extends RenderBox {
     }
   }
 }
+*/

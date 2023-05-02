@@ -1,4 +1,4 @@
-import 'package:flare_flutter/flare.dart';
+/*import 'package:flare_flutter/flare.dart';
 
 import 'flare_interaction_controller.dart';
 
@@ -60,4 +60,4 @@ class AmeliaController extends FlareInteractionController {
     _lastTouchPosition = touchPosition;
     return true;
   }
-}
+}*/

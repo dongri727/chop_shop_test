@@ -1,4 +1,4 @@
-import 'package:nima/nima.dart';
+/*import 'package:nima/nima.dart';
 import 'package:nima/nima/actor_node.dart';
 import 'package:nima/nima/math/mat2d.dart';
 import 'package:nima/nima/math/vec2d.dart';
@@ -58,4 +58,4 @@ class NewtonController extends NimaInteractionController {
     _lastTouchPosition = touchPosition;
     return true;
   }
-}
+}*/

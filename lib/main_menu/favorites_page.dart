@@ -1,4 +1,4 @@
-import 'package:chop_shop_test/bloc_provider.dart';
+/*import 'package:chop_shop_test/bloc_provider.dart';
 import 'package:chop_shop_test/colors.dart';
 import 'package:chop_shop_test/main_menu/menu_data.dart';
 import 'package:chop_shop_test/main_menu/thumbnail_detail_widget.dart';
@@ -111,4 +111,4 @@ class FavoritesPage extends StatelessWidget {
                   ])
                 : ListView(children: favorites)));
   }
-}
+}*/

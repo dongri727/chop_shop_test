@@ -1,3 +1,4 @@
+/*
 import 'package:chop_shop_test/article/timeline_entry_widget.dart';
 import 'package:chop_shop_test/bloc_provider.dart';
 import 'package:chop_shop_test/colors.dart';
@@ -242,3 +243,4 @@ class _ArticleWidgetState extends State<ArticleWidget> {
             ])));
   }
 }
+*/

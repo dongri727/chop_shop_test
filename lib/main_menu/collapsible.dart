@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 /// This widget is used to animate the header above [SearchWidget] so that it
@@ -77,3 +78,4 @@ class CollapsibleState extends State<Collapsible>
         child: widget.child);
   }
 }
+*/

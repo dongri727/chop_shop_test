@@ -94,12 +94,12 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     /// Perform search.
     ///
     /// A [Timer] is used to prevent unnecessary searches while the user is typing.
-    _searchTimer = Timer(Duration(milliseconds: txt.isEmpty ? 0 : 350), () {
+/*    _searchTimer = Timer(Duration(milliseconds: txt.isEmpty ? 0 : 350), () {
       Set<TimelineEntry> res = SearchManager.init().performSearch(txt);
       setState(() {
         _searchResults = res.toList();
       });
-    });
+    });*/
   }
 
   initState() {
@@ -183,11 +183,11 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
         ))
         ..add(ElevatedButton(
             onPressed: () {
-              _pauseSection();
+/*              _pauseSection();
               Navigator.of(context)
                   .push(MaterialPageRoute(
                       builder: (BuildContext context) => FavoritesPage()))
-                  .then(_restoreSection);
+                  .then(_restoreSection);*/
             },
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -210,11 +210,11 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
           padding: const EdgeInsets.only(bottom: 30.0),
           child: ElevatedButton(
               onPressed: () {
-                _pauseSection();
+/*                _pauseSection();
                 Navigator.of(context)
                     .push(MaterialPageRoute(
                         builder: (BuildContext context) => AboutPage()))
-                    .then(_restoreSection);
+                    .then(_restoreSection);*/
               },
               child:
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -252,31 +252,31 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                          Collapsible(
+/*                          Collapsible(
                               isCollapsed: _isSearching,
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding(
+*//*                                    Padding(
                                         padding: const EdgeInsets.only(
                                             top: 20.0, bottom: 12.0),
                                         child: Opacity(
                                             opacity: 0.85,
                                             child: Image.asset(
                                                 "assets/twoDimensions_logo.png",
-                                                height: 10.0))),
-                                    Text("The History of Everything",
+                                                height: 10.0))),*//*
+                                    Text("CHOP SHOP",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                             color: darkText.withOpacity(
                                                 darkText.opacity * 0.75),
                                             fontSize: 34.0,
                                             fontFamily: "RobotoMedium"))
-                                  ])),
-                          Padding(
+                                  ])),*/
+/*                          Padding(
                               padding: EdgeInsets.only(top: 22.0),
                               child: SearchWidget(
-                                  _searchFocusNode, _searchTextController))
+                                  _searchFocusNode, _searchTextController))*/
                         ] +
                         tail)),
           )),

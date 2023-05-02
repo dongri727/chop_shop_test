@@ -33,7 +33,7 @@
 		"label": "Birth of the Milky Way",
 		"id":"milky",
 		"article": "milky_way.txt",
-		"asset": 
+		"asset":
 		{
 			"source": "Milky Way/Milky Way.flr",
 			"width": 1293,
@@ -629,6 +629,94 @@
 			"width": 528,
 			"height": 528,
 			"offset": -140
+		}
+	},
+	{
+		"date": 2001,
+		"label": "A Space Odyssey",
+		"article":"big_bang.txt",
+		"background": [0, 38, 75],
+		"accent": [246, 76, 130, 255],
+		"ticks":
+		{
+			"background": [20, 57, 92, 240],
+			"long": [255, 255, 255, 75],
+			"short": [255, 255, 255, 51],
+			"text": [255, 255, 255, 157]
+		},
+		"header":
+		{
+			"background": [11, 47, 81, 94],
+			"text": [255, 255, 255, 157]
+		},
+		"asset":
+		{
+			"source": "Big_Bang/Big_Bang.flr",
+			"width": 3628,
+			"height": 3620,
+			"offset": 1500,
+			"gap": -1000,
+			"loop": false,
+			"bounds":[-1814, -1810, 1814, 1810]
+		}
+	},
+	{
+		"date": 2010,
+		"label": "Birth Smart-Pone",
+		"id":"milky",
+		"article": "milky_way.txt",
+		"asset":
+		{
+			"source": "Milky Way/Milky Way.flr",
+			"width": 1293,
+			"height": 1210,
+			"scale": 0.5,
+			"bounds":[-1616.5, -115.0, -323.5, 1095.0]
+		}
+	},
+	{
+		"date": 2020,
+		"label": "AI is Born",
+		"article":"sun.txt",
+		"accent": [255, 166, 20, 255],
+		"asset":
+		{
+			"source": "Sun.flr",
+			"width": 800,
+			"height": 800,
+			"offset": -100,
+			"intro":"Sun_in",
+			"idle":"Sun_idle",
+			"bounds":[-400.0, -400.0, 400.0, 400.0]
+		}
+	},
+	{
+		"date": 2030,
+		"label": "live on Moon",
+		"article":"earth.txt",
+		"asset":
+		{
+			"source": "HeavyBombardment.flr",
+			"width": 1210,
+			"height": 1210,
+			"scale": 0.25,
+			"idle":"Earth_is_born",
+			"bounds":[-581,-633,629,577]
+		}
+	},
+	{
+		"date": 2040,
+		"label": "Live on Mars",
+		"article": "bombardment.txt",
+		"accent": [255, 63, 0, 255],
+		"asset":
+		{
+			"source": "HeavyBombardment.flr",
+			"width": 3774,
+			"height": 2675,
+			"scale": 0.25,
+			"idle":"Bombardmnet",
+			"bounds":[-598.0,-2075.5,3176,599.5]
 		}
 	}
 ]

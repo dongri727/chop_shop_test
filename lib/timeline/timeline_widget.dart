@@ -127,7 +127,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
             bottom: target.padBottom);
         timeline.setViewport(
             start: target.start, end: target.end, animate: true, pad: true);
-      } else {
+      }/* else {
         widget.timeline.isActive = false;
 
         Navigator.of(context)
@@ -135,7 +135,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                 builder: (BuildContext context) =>
                     ArticleWidget(article: _touchedBubble.entry)))
             .then((v) => widget.timeline.isActive = true);
-      }
+      }*/
     } else if (_touchedEntry != null) {
       MenuItemData target = MenuItemData.fromEntry(_touchedEntry);
 
@@ -263,7 +263,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
           child: Stack(children: <Widget>[
             TimelineRenderWidget(
                 timeline: timeline,
-                favorites: BlocProvider.favorites(context).favorites,
+                //favorites: BlocProvider.favorites(context).favorites,
                 topOverlap: TopOverlap + devicePadding.top,
                 focusItem: widget.focusItem,
                 touchBubble: onTouchBubble,
@@ -309,7 +309,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                                       : darkText.withOpacity(
                                           darkText.opacity * 0.75)),
                             ),
-                            Expanded(
+/*                            Expanded(
                                 child: GestureDetector(
                                     child: Transform.translate(
                                         offset: const Offset(0.0, 0.0),
@@ -335,7 +335,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                                       setState(() {
                                         _showFavorites = timeline.showFavorites;
                                       });
-                                    })),
+                                    })),*/
                           ]))
                 ])
           ])),

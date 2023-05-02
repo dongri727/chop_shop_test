@@ -1,4 +1,4 @@
-import 'package:chop_shop_test/colors.dart';
+/*import 'package:chop_shop_test/colors.dart';
 import 'package:flutter/material.dart';
 
 /// Draws the search bar on top of the menu.
@@ -57,4 +57,4 @@ class SearchWidget extends StatelessWidget {
       ),
     );
   }
-}
+}*/

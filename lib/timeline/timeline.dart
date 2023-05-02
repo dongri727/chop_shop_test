@@ -171,12 +171,12 @@ class Timeline {
 
   /// Setter for toggling the gutter on the left side of the timeline with
   /// quick references to the favorites on the timeline.
-  set showFavorites(bool value) {
+/*  set showFavorites(bool value) {
     if (_showFavorites != value) {
       _showFavorites = value;
       _startRendering();
     }
-  }
+  }*/
 
   /// When a scale operation is detected, this setter is called:
   /// e.g. [_TimelineWidgetState.scaleStart()].

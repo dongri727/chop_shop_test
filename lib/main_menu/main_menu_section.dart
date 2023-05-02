@@ -120,13 +120,13 @@ class _SectionState extends State<MenuSection>
                 borderRadius: BorderRadius.circular(10.0),
                 child: Stack(
                   children: <Widget>[
-                    Positioned.fill(
+/*                    Positioned.fill(
                         left: 0,
                         top: 0,
                         child: MenuVignette(
                             gradientColor: widget.backgroundColor,
                             isActive: widget.isActive,
-                            assetId: widget.assetId)),
+                            assetId: widget.assetId)),*/
                     Column(children: <Widget>[
                       Container(
                           height: 150.0,

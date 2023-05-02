@@ -1,3 +1,4 @@
+/*
 import 'dart:collection';
 
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
@@ -65,3 +66,4 @@ class SearchManager {
     return res;
   }
 }
+*/

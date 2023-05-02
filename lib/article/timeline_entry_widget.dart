@@ -1,4 +1,3 @@
-/*
 import 'dart:math';
 import "dart:ui" as ui;
 
@@ -388,7 +387,6 @@ class VignetteRenderObject extends RenderBox {
 
         /// Apply the current time to the [asset] animation.
         asset.animation.apply(asset.animationTime, _nimaActor, 1.0);
-       */
 /* if (_nimaController != null) {
           nima.Vec2D localTouchPosition;
           if (interactOffset != null) {
@@ -456,7 +454,7 @@ class VignetteRenderObject extends RenderBox {
 
           /// This custom [NimaInteractionController] uses [localTouchPosition] to perform its calculations.
           _nimaController.advance(_nimaActor, localTouchPosition, elapsed);
-        }*//*
+        }*/
 
         _nimaActor.advance(elapsed);
       } else if (asset is TimelineFlare && _flareActor != null) {
@@ -491,7 +489,6 @@ class VignetteRenderObject extends RenderBox {
           /// Apply the current time to this [ActorAnimation].
           asset.animation.apply(asset.animationTime, _flareActor, 1.0);
         }
-*/
 /*        if (_flareController != null) {
           flare.Vec2D localTouchPosition;
           if (interactOffset != null) {
@@ -559,7 +556,7 @@ class VignetteRenderObject extends RenderBox {
 
           /// Perform the actual [advance()]ing.
           _flareController.advance(_flareActor, localTouchPosition, elapsed);
-        }*//*
+        }*/
 
 
         /// Advance the [FlutterActorArtboard].
@@ -577,4 +574,3 @@ class VignetteRenderObject extends RenderBox {
     }
   }
 }
-*/

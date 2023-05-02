@@ -420,7 +420,7 @@ class Timeline {
         ///   - loop: some animations shouldn't loop (e.g. Big Bang) but just settle onto their idle animation. If that's the case, this flag is raised.
         ///   - scale: a custom scale value.
         /// }
-        if (map.containsKey("asset")) {
+  /*      if (map.containsKey("asset")) {
           TimelineAsset asset;
           Map assetMap = map["asset"] as Map;
           String source = assetMap["source"];
@@ -611,7 +611,7 @@ class Timeline {
           asset.entry = timelineEntry;
           asset.filename = filename;
           timelineEntry.asset = asset;
-        }
+        }*/
 
         /// Add this entry to the list.
         allEntries.add(timelineEntry);

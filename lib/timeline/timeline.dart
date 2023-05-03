@@ -11,8 +11,8 @@ import 'package:flare_flutter/flare.dart' as flare;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:nima/nima.dart' as nima;
-import 'package:nima/nima/math/aabb.dart' as nima;
+/*import 'package:nima/nima.dart' as nima;
+import 'package:nima/nima/math/aabb.dart' as nima;*/
 
 import 'timeline_entry.dart';
 
@@ -128,8 +128,8 @@ class Timeline {
   List<TimelineAsset> _renderAssets;
 
   Map<String, TimelineEntry> _entriesById = Map<String, TimelineEntry>();
-  Map<String, nima.FlutterActor> _nimaResources =
-      Map<String, nima.FlutterActor>();
+/*  Map<String, nima.FlutterActor> _nimaResources =
+      Map<String, nima.FlutterActor>();*/
   Map<String, flare.FlutterActor> _flareResources =
       Map<String, flare.FlutterActor>();
 
@@ -1325,20 +1325,20 @@ class Timeline {
 
           _lastAssetY =
               targetAssetY + asset.height * AssetScreenScale + AssetPadding;
-          if (asset is TimelineNima) {
+          if /*(asset is TimelineNima) {
             _lastAssetY += asset.gap;
-          } else if (asset is TimelineFlare) {
+          } else if*/ (asset is TimelineFlare) {
             _lastAssetY += asset.gap;
           }
           if (asset.y > _height ||
               asset.y + asset.height * AssetScreenScale < 0.0) {
             /// It's not in view: cull it. Make sure we don't advance animations.
-            if (asset is TimelineNima) {
+            if/* (asset is TimelineNima) {
               TimelineNima nimaAsset = asset;
               if (!nimaAsset.loop) {
                 nimaAsset.animationTime = -1.0;
               }
-            } else if (asset is TimelineFlare) {
+            } else if*/ (asset is TimelineFlare) {
               TimelineFlare flareAsset = asset;
               if (!flareAsset.loop) {
                 flareAsset.animationTime = -1.0;
@@ -1349,7 +1349,7 @@ class Timeline {
             }
           } else {
             /// Item is in view, apply the new animation time and advance the actor.
-            if (asset is TimelineNima && isActive) {
+            if /*(asset is TimelineNima && isActive) {
               asset.animationTime += elapsed;
               if (asset.loop) {
                 asset.animationTime %= asset.animation.duration;
@@ -1357,7 +1357,7 @@ class Timeline {
               asset.animation.apply(asset.animationTime, asset.actor, 1.0);
               asset.actor.advance(elapsed);
               stillAnimating = true;
-            } else if (asset is TimelineFlare && isActive) {
+            } else if*/ (asset is TimelineFlare && isActive) {
               asset.animationTime += elapsed;
 
               /// Flare animations can have idle animations, as well as intro animations.

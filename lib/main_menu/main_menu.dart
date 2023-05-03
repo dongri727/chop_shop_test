@@ -21,6 +21,7 @@ import "package:flutter/material.dart";
 /// and it'll provide on the bottom three links for quick access to your Favorites,
 /// a Share Menu and the About Page.
 class MainMenuWidget extends StatefulWidget {
+
   MainMenuWidget({Key key}) : super(key: key);
 
   @override

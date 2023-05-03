@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flare_dart/math/aabb.dart' as flare;
 import 'package:flare_flutter/flare.dart' as flare;
-import 'package:nima/nima.dart' as nima;
+/*import 'package:nima/nima.dart' as nima;
 import 'package:nima/nima/animation/actor_animation.dart' as nima;
-import 'package:nima/nima/math/aabb.dart' as nima;
+import 'package:nima/nima/math/aabb.dart' as nima;*/
 
 /// An object representing the renderable assets loaded from `timeline.json`.
 ///
@@ -36,13 +36,13 @@ class TimelineAnimatedAsset extends TimelineAsset {
   double gap = 0.0;
 }
 
-/// An `Nima` Asset.
+/*/// An `Nima` Asset.
 class TimelineNima extends TimelineAnimatedAsset {
   nima.FlutterActor actorStatic;
   nima.FlutterActor actor;
   nima.ActorAnimation animation;
   nima.AABB setupAABB;
-}
+}*/
 
 /// A `Flare` Asset.
 class TimelineFlare extends TimelineAnimatedAsset {

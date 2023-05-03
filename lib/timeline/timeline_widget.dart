@@ -9,9 +9,7 @@ import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_render_widget.dart';
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 typedef ShowMenuCallback();
 typedef SelectItemCallback(TimelineEntry item);
@@ -55,7 +53,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
   /// This state variable toggles the rendering of the left sidebar
   /// showing the favorite elements already on the timeline.
-  bool _showFavorites = false;
+  //bool _showFavorites = false;
 
   /// The following three functions define are the callbacks used by the
   /// [GestureDetector] widget when rendering this widget.
@@ -136,7 +134,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                     ArticleWidget(article: _touchedBubble.entry)))
             .then((v) => widget.timeline.isActive = true);
       }*/
-    } else if (_touchedEntry != null) {
+    } /*else if (_touchedEntry != null) {
       MenuItemData target = MenuItemData.fromEntry(_touchedEntry);
 
       timeline.padding = EdgeInsets.only(
@@ -147,7 +145,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
           bottom: target.padBottom);
       timeline.setViewport(
           start: target.start, end: target.end, animate: true, pad: true);
-    }
+    }*/
   }
 
   /// When performing a long-press operation, the viewport will be adjusted so that
@@ -194,7 +192,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
       _headerTextColor = timeline.headerTextColor;
       _headerBackgroundColor = timeline.headerBackgroundColor;
-      _showFavorites = timeline.showFavorites;
+      //_showFavorites = timeline.showFavorites;
     }
   }
 
@@ -223,7 +221,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
       setState(() {
         _eraName =
             timeline.currentEra != null ? timeline.currentEra : DefaultEraName;
-        _showFavorites = timeline.showFavorites;
+        //_showFavorites = timeline.showFavorites;
       });
     }
   }

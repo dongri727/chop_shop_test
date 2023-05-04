@@ -5,9 +5,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
-import 'package:flare_dart/math/aabb.dart' as flareDart;
+/*import 'package:flare_dart/math/aabb.dart' as flareDart;
 import 'package:flare_flutter/base/math/aabb.dart' as flare;
-import 'package:flare_flutter/flare.dart' as flare;
+import 'package:flare_flutter/flare.dart' as flare;*/
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -130,8 +130,8 @@ class Timeline {
   Map<String, TimelineEntry> _entriesById = Map<String, TimelineEntry>();
 /*  Map<String, nima.FlutterActor> _nimaResources =
       Map<String, nima.FlutterActor>();*/
-  Map<String, flare.FlutterActor> _flareResources =
-      Map<String, flare.FlutterActor>();
+/*  Map<String, flare.FlutterActor> _flareResources =
+      Map<String, flare.FlutterActor>();*/
 
   /// Callback set by [TimelineRenderWidget] when adding a reference to this object.
   /// It'll trigger [RenderBox.markNeedsPaint()].

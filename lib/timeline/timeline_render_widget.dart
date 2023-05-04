@@ -8,8 +8,8 @@ import 'package:chop_shop_test/timeline/ticks.dart';
 import 'package:chop_shop_test/timeline/timeline.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
-import 'package:flare_dart/actor_image.dart' as flare;
-import 'package:flare_dart/math/aabb.dart' as flare;
+/*import 'package:flare_dart/actor_image.dart' as flare;
+import 'package:flare_dart/math/aabb.dart' as flare;*/
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 //import 'package:nima/nima/math/aabb.dart' as nima;
@@ -688,7 +688,7 @@ class TimelineRenderObject extends RenderBox {
         return (a.start - mid).abs().compareTo((b.start - mid).abs());
       });
 
-      /// layout favorites.
+/*      /// layout favorites.
       for (int i = 0; i < nearbyFavorites.length; i++) {
         TimelineEntry favorite = nearbyFavorites[i];
         double y = ((favorite.start - timeline.renderStart) * scale).clamp(
@@ -706,9 +706,9 @@ class TimelineRenderObject extends RenderBox {
             break;
           }
         }
-      }
+      }*/
 
-      /// Iterate the list from the bottom.
+/*      /// Iterate the list from the bottom.
       for (TimelineEntry favorite in nearbyFavorites.reversed) {
         if (favorite.isFavoriteOccluded) {
           continue;
@@ -735,7 +735,7 @@ class TimelineRenderObject extends RenderBox {
 
         /// Draw the assets statically within the circle.
         /// Calculations here are the same as seen in [paint()] for the assets.
-/*        if *//*(asset is TimelineNima && asset.actorStatic != null) {
+*//*        if *//**//*(asset is TimelineNima && asset.actorStatic != null) {
           nima.AABB bounds = asset.setupAABB;
 
           double contentHeight = bounds[3] - bounds[1];
@@ -803,7 +803,7 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else if*//* (asset is TimelineFlare && asset.actorStatic != null) {
+        } else if*//**//* (asset is TimelineFlare && asset.actorStatic != null) {
           flare.AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
@@ -870,20 +870,20 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else {*/
+        } else {*//*
           _tapTargets.add(TapTarget()
             ..entry = favorite
             ..rect = renderOffset & renderSize
             ..zoom = true);
         //}
-      }
+      }*/
 
       /// If there are two or more favorites in the gutter, show a line connecting
       /// the two circles, with the time between those two favorites as a label within a bubble.
       ///
       /// Uses same [ui.ParagraphBuilder] logic as seen above.
       TimelineEntry previous;
-      for (TimelineEntry favorite in _favorites) {
+/*      for (TimelineEntry favorite in _favorites) {
         if (favorite.isFavoriteOccluded) {
           continue;
         }
@@ -931,7 +931,7 @@ class TimelineRenderObject extends RenderBox {
           }
         }
         previous = favorite;
-      }
+      }*/
     }
   }
 

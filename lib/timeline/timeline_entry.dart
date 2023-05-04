@@ -108,7 +108,7 @@ class TimelineEntry {
   double legOpacity = 0.0;
   double labelY = 0.0;
   double labelVelocity = 0.0;
-  double favoriteY = 0.0;
+  //double favoriteY = 0.0;
   bool isFavoriteOccluded = false;
 
   TimelineAsset asset;

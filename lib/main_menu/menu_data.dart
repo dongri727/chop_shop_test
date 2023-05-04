@@ -12,7 +12,7 @@ class MenuSectionData {
   String label;
   Color textColor;
   Color backgroundColor;
-  String assetId;
+  //String assetId;
   List<MenuItemData> items = [];
 }
 
@@ -111,9 +111,9 @@ class MenuData {
               int.parse((map["color"] as String).substring(1, 7), radix: 16) +
                   0xFF000000);
         }
-        if (map.containsKey("asset")) {
+/*        if (map.containsKey("asset")) {
           menuSection.assetId = map["asset"] as String;
-        }
+        }*/
         if (map.containsKey("items")) {
           List items = map["items"] as List;
           for (dynamic item in items) {

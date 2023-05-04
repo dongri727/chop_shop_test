@@ -8,7 +8,7 @@ import 'package:chop_shop_test/timeline/timeline.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:chop_shop_test/timeline/timeline_render_widget.dart';
 import 'package:chop_shop_test/timeline/timeline_utils.dart';
-import 'package:flare_flutter/flare_actor.dart';
+//import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
 typedef ShowMenuCallback();

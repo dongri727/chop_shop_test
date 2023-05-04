@@ -174,7 +174,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                   section.items,
                   navigateToTimeline,
                   _isSectionActive,
-                  assetId: section.assetId,
+                  //assetId: section.assetId,
                 )))
             .toList(growable: false))
         ..add(Container(

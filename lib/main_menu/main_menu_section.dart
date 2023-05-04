@@ -1,7 +1,6 @@
 import 'package:chop_shop_test/main_menu/menu_data.dart';
 import 'package:chop_shop_test/main_menu/menu_vignette.dart';
-import "package:flare_flutter/flare_actor.dart" as flare;
-import 'package:flutter/cupertino.dart';
+//import "package:flare_flutter/flare_actor.dart" as flare;
 import 'package:flutter/material.dart';
 
 typedef NavigateTo(MenuItemData item);
@@ -141,11 +140,12 @@ class _SectionState extends State<MenuSection>
 
                                 /// Another [FlareActor] widget that
                                 /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
-                                child: flare.FlareActor(
+                                child: Icon(Icons.add)
+                                /*flare.FlareActor(
                                     "assets/ExpandCollapse.flr",
                                     color: widget.accentColor,
                                     animation:
-                                        _isExpanded ? "Collapse" : "Expand"),
+                                        _isExpanded ? "Collapse" : "Expand"),*/
                               ),
                               Text(
                                 widget.title,

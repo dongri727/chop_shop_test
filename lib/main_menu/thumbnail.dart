@@ -1,4 +1,4 @@
-import 'package:chop_shop_test/article/timeline_entry_widget.dart';
+/*import 'package:chop_shop_test/article/timeline_entry_widget.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import "package:flutter/material.dart";
 
@@ -21,13 +21,13 @@ class ThumbnailWidget extends StatelessWidget {
     /// Check if the [entry.asset] provided is already a [TimelineImage].
     if (asset is TimelineImage) {
       thumbnail = RawImage(image: asset.image);
-    } /*else if (asset is TimelineNima || asset is TimelineFlare) {
+    } *//*else if (asset is TimelineNima || asset is TimelineFlare) {
       /// If not, retrieve the image from the Nima/Flare [TimelineAsset], and set it as inactive (i.e. a static image).
       thumbnail = TimelineEntryWidget(
         isActive: false,
         timelineEntry: entry,
       );
-    } */else {
+    } *//*else {
       thumbnail = Container(
         color: Colors.transparent,
       );
@@ -52,4 +52,4 @@ class CircleClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> old) => true;
-}
+}*/

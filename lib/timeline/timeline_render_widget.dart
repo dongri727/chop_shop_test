@@ -266,7 +266,7 @@ class TimelineRenderObject extends RenderBox {
                   ..isAntiAlias = true
                   ..filterQuality = ui.FilterQuality.low
                   ..color = Colors.white.withOpacity(asset.opacity));
-          } else if/* (asset is TimelineNima && asset.actor != null) {
+          } /*else if*//* (asset is TimelineNima && asset.actor != null) {
             /// If we have a [TimelineNima] asset, set it up properly and paint it.
             ///
             /// 1. Calculate the bounds for the current object.
@@ -357,7 +357,7 @@ class TimelineRenderObject extends RenderBox {
             _tapTargets.add(TapTarget()
               ..entry = asset.entry
               ..rect = renderOffset & renderSize);
-          } else if*/ (asset is TimelineFlare && asset.actor != null) {
+          } else if*//* (asset is TimelineFlare && asset.actor != null) {
             /// If we have a [TimelineFlare] asset set it up properly and paint it.
             ///
             /// 1. Calculate the bounds for the current object.
@@ -448,7 +448,7 @@ class TimelineRenderObject extends RenderBox {
             _tapTargets.add(TapTarget()
               ..entry = asset.entry
               ..rect = renderOffset & renderSize);
-          }
+          }*/
         }
       }
       canvas.restore();
@@ -735,7 +735,7 @@ class TimelineRenderObject extends RenderBox {
 
         /// Draw the assets statically within the circle.
         /// Calculations here are the same as seen in [paint()] for the assets.
-        if /*(asset is TimelineNima && asset.actorStatic != null) {
+/*        if *//*(asset is TimelineNima && asset.actorStatic != null) {
           nima.AABB bounds = asset.setupAABB;
 
           double contentHeight = bounds[3] - bounds[1];
@@ -803,7 +803,7 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else if*/ (asset is TimelineFlare && asset.actorStatic != null) {
+        } else if*//* (asset is TimelineFlare && asset.actorStatic != null) {
           flare.AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
@@ -870,12 +870,12 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else {
+        } else {*/
           _tapTargets.add(TapTarget()
             ..entry = favorite
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        }
+        //}
       }
 
       /// If there are two or more favorites in the gutter, show a line connecting

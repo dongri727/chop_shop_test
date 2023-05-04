@@ -40,9 +40,9 @@ class MenuItemData {
 
     /// Extra padding for the top base don the asset size.
     padTop = asset == null ? 0.0 : asset.height * Timeline.AssetScreenScale;
-    if (asset is TimelineAnimatedAsset) {
+/*    if (asset is TimelineAnimatedAsset) {
       padTop += asset.gap;
-    }
+    }*/
 
     if (entry.type == TimelineEntryType.Era) {
       start = entry.start;

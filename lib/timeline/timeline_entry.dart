@@ -1,8 +1,8 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 
-import 'package:flare_dart/math/aabb.dart' as flare;
-import 'package:flare_flutter/flare.dart' as flare;
+/*import 'package:flare_dart/math/aabb.dart' as flare;
+import 'package:flare_flutter/flare.dart' as flare;*/
 /*import 'package:nima/nima.dart' as nima;
 import 'package:nima/nima/animation/actor_animation.dart' as nima;
 import 'package:nima/nima/math/aabb.dart' as nima;*/
@@ -28,13 +28,13 @@ class TimelineImage extends TimelineAsset {
   ui.Image image;
 }
 
-/// This asset also has information regarding its animations.
+/*/// This asset also has information regarding its animations.
 class TimelineAnimatedAsset extends TimelineAsset {
   bool loop;
   double animationTime = 0.0;
   double offset = 0.0;
   double gap = 0.0;
-}
+}*/
 
 /*/// An `Nima` Asset.
 class TimelineNima extends TimelineAnimatedAsset {
@@ -44,7 +44,7 @@ class TimelineNima extends TimelineAnimatedAsset {
   nima.AABB setupAABB;
 }*/
 
-/// A `Flare` Asset.
+/*/// A `Flare` Asset.
 class TimelineFlare extends TimelineAnimatedAsset {
   flare.FlutterActorArtboard actorStatic;
   flare.FlutterActorArtboard actor;
@@ -59,7 +59,7 @@ class TimelineFlare extends TimelineAnimatedAsset {
   flare.ActorAnimation idle;
   List<flare.ActorAnimation> idleAnimations;
   flare.AABB setupAABB;
-}
+}*/
 
 /// A label for [TimelineEntry].
 enum TimelineEntryType { Era, Incident }
@@ -77,7 +77,7 @@ class TimelineEntry {
 
   ///
   String _label;
-  String articleFilename;
+  //String articleFilename;
   String id;
 
   Color accent;

@@ -156,13 +156,13 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     ///
     /// If the app is searching, lay out the results.
     /// Otherwise, insert the menu information with all the various sections.
-    if (_isSearching) {
+/*    if (_isSearching) {
       for (int i = 0; i < _searchResults.length; i++) {
         tail.add(RepaintBoundary(
             child: ThumbnailDetailWidget(_searchResults[i],
                 hasDivider: i != 0, tapSearchResult: _tapSearchResult)));
       }
-    } else {
+    } else {*/
       tail
         ..addAll(_menu.sections
             .map<Widget>((MenuSectionData section) => Container(
@@ -235,7 +235,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                 )
               ])),
         ));
-    }
+    //}
 
     /// Wrap the menu in a [WillPopScope] to properly handle a pop event while searching.
     /// A [SingleChildScrollView] is used to create a scrollable view for the main menu.

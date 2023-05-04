@@ -1,3 +1,4 @@
+/*
 import 'package:chop_shop_test/colors.dart';
 import 'package:chop_shop_test/timeline/timeline_entry.dart';
 import 'package:flutter/material.dart';
@@ -87,3 +88,4 @@ class ThumbnailDetailWidget extends StatelessWidget {
         ));
   }
 }
+*/
